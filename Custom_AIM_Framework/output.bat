@@ -14,8 +14,8 @@ IF EXIST ".\out\" (
 MKDIR ".\build"
 MKDIR ".\out"
 
-:: Compile the Java files
-FOR /R src\com\aimframeworkgrp23 %%G IN (*.java) DO javac -d ".\build" "%%G"
+:: Compile all Java files in the source directory at once
+javac -d ".\build" src\com\aimframeworkgrp23\*.java
 IF %ERRORLEVEL% EQU 0 (
     ECHO All .class files built successfully!
 ) ELSE (
