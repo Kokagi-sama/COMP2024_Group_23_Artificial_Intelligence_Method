@@ -1,4 +1,4 @@
-package com.aimframework;
+package com.aimframeworkgrp23;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

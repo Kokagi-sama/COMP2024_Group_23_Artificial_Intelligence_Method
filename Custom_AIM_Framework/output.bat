@@ -15,7 +15,7 @@ MKDIR ".\build"
 MKDIR ".\out"
 
 :: Compile the Java files
-FOR /R src\com\aimframework %%G IN (*.java) DO javac -d ".\build" "%%G"
+FOR /R src\com\aimframeworkgrp23 %%G IN (*.java) DO javac -d ".\build" "%%G"
 IF %ERRORLEVEL% EQU 0 (
     ECHO All .class files built successfully!
 ) ELSE (
@@ -23,7 +23,7 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 :: Create the JAR file
-jar cf "./out/framework.jar" -C "./build" .
+jar cf "./out/aimframeworkgrp23.jar" -C "./build" .
 IF %ERRORLEVEL% EQU 0 (
     ECHO Framework built successfully!
 ) ELSE (

@@ -2,7 +2,7 @@ package org.example;
 
 import java.io.IOException;
 
-import com.aimframework.*;
+import com.aimframeworkgrp23.*;
 
 public class Main {
     public static void main(String[] args) {
