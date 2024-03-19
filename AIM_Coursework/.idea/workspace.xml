@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47a97e86-610c-4f02-9a00-6564bc0cc286" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Bin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/FirstFitAlgorithm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/genetic_algorithm.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/SimulatedAnnealing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Bin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FirstFitAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/FirstFitAlgorithm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/BinPackingProblem.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/BinPackingProblem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/Item.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/TextFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/build/com/aimframeworkgrp23/TextFileReader.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/out/aimframeworkgrp23.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/out/aimframeworkgrp23.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/output.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/output.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Custom_AIM_Framework/src/com/aimframeworkgrp23/TextFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Custom_AIM_Framework/src/com/aimframeworkgrp23/TextFileReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,15 +42,19 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Kokagi-Development&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Documents/Nottingham/COMP2024_Group_23/Custom_AIM_Framework/out/aimframeworkgrp23.jar&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;SR-Development&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Siddharth Ray/Desktop/Nottingham Malaysia/Year 2/Semester 2/AIM/COMP2024_Group_23/Custom_AIM_Framework/out/aimframeworkgrp23.jar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15625&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -59,6 +64,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\University of Nottingham\AIM\COMP2024_Group_23\AIM_Coursework\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example" />
     </key>
   </component>
   <component name="RunManager">
@@ -81,6 +89,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -90,6 +105,16 @@
       <option name="presentableId" value="Default" />
       <updated>1710584350286</updated>
       <workItem from="1710584351308" duration="2266000" />
+      <workItem from="1710628339463" duration="160000" />
+      <workItem from="1710628509836" duration="234000" />
+      <workItem from="1710628896195" duration="83000" />
+      <workItem from="1710691606124" duration="9000" />
+      <workItem from="1710691645786" duration="8893000" />
+      <workItem from="1710701102679" duration="681000" />
+      <workItem from="1710702165435" duration="2650000" />
+      <workItem from="1710779635918" duration="5617000" />
+      <workItem from="1710797293642" duration="10277000" />
+      <workItem from="1710821760997" duration="6706000" />
     </task>
     <servers />
   </component>

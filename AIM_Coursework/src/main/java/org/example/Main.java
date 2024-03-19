@@ -1,26 +1,39 @@
 package org.example;
 
-import java.io.IOException;
-import java.util.List;
-
+import java.util.Map;
+import java.util.LinkedHashSet;
 import com.aimframeworkgrp23.*;
 
 public class Main {
-    public static void main(String[] args) {
-        try {
-            List<BinPackingProblem> problems = TextFileReader.readProblems("./src/main/resources/BPP.txt");
-//            for (BinPackingProblem problem : problems) {
-//                System.out.println("Problem Name: " + problem.getProblemName());
-//                System.out.println("Unique Weight Count: " + problem.getUniqueWeightCount());
-//                System.out.println("Bin Capacity: " + problem.getBinCapacity());
-//                for (Item item : problem.getItems()) {
-//                    System.out.println("Weight: " + item.getWeight());
-//                }
-//            }
+    static String datasetPath = "./src/main/resources/BPP.txt";
+    static String initialSolutionPath = "./src/main/resources/initialSolution.txt";
+    static String firstFitSolutionPath = "./src/main/resources/firstFitSolution.txt";
+    static String simulatedAnnealingSolutionPath = "./src/main/resources/simulatedAnnealingSolution.txt";
 
-            List<Bin> bins = FirstFitAlgorithm.firstFit(problems);
-            FirstFitAlgorithm.printResults(problems, bins);
-        } catch (IOException e) {
+    public static void main(String[] args) {
+
+        try {
+            // Create heuristic object
+            Heuristics h1 = new Heuristics();
+
+            // Reading Problems
+            LinkedHashSet<BinPackingProblem> problems = TextFileReader.readProblems(datasetPath);
+
+            // Creating and saving initial solution
+            Map<String, Solution> initialSolution = InitialiseSolution.initSolution(problems);
+            PrintSolutionsToFile.saveResults(initialSolution, initialSolutionPath);
+
+            // Creating and saving First Fit Algorithm solution
+            FirstFitAlgorithm ff = new FirstFitAlgorithm(initialSolution);
+            Map<String, Solution> firstFitSolution = ff.applyFirstFit();
+            PrintSolutionsToFile.saveResults(firstFitSolution, firstFitSolutionPath);
+
+            // Creating and saving Simulated Annealing solution
+             SimulatedAnnealing sa = new SimulatedAnnealing(h1, initialSolution);
+             Map<String, Solution> simulatedAnnealing_solution = sa.applySimulatedAnnealing();
+             PrintSolutionsToFile.saveResults(simulatedAnnealing_solution, simulatedAnnealingSolutionPath);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

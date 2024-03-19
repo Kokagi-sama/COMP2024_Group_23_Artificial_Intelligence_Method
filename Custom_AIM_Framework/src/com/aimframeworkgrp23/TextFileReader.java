@@ -2,15 +2,15 @@ package com.aimframeworkgrp23;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashSet;
 import java.io.IOException;
 
 public class TextFileReader {
 
-    public static List<BinPackingProblem> readProblems(String filePath) throws IOException {
+    public static LinkedHashSet<BinPackingProblem> readProblems(String filePath) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(filePath));
-        List<BinPackingProblem> problems = new ArrayList<>();
+        LinkedHashSet<BinPackingProblem> problems = new LinkedHashSet<>();
 
         BinPackingProblem currentProblem = null;
         String problemName = null;
