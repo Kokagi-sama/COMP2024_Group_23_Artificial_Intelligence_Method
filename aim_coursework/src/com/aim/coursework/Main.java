@@ -1,13 +1,13 @@
-package org.example;
+package com.aim.coursework;
 
 import java.util.Map;
 import java.util.LinkedHashSet;
 import com.aimframeworkgrp23.*;
 
 public class Main {
-    static String datasetPath = "./src/main/resources/BPP.txt";
-    static String initialSolutionPath = "./src/main/resources/initialSolution.txt";
-    static String simulatedAnnealingSolutionPath = "./src/main/resources/simulatedAnnealingSolution.txt";
+    static String datasetPath = "./src/resources/BPP.txt";
+    static String initialSolutionPath = "./src/resources/initialSolution.txt";
+    static String simulatedAnnealingSolutionPath = "./src/resources/simulatedAnnealingSolution.txt";
 
     public static void main(String[] args) {
 
