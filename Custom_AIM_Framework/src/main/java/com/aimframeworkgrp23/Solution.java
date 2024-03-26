@@ -15,7 +15,6 @@ public class Solution {
 
     public void addIterationState(int iteration, IterationState iterationState) {
         this.iterationStates.put(iteration, iterationState);
-        this.finalState = iterationState;
     }
 
     public void updateIterationState(int iteration, IterationState iterationState) {
@@ -24,6 +23,9 @@ public class Solution {
         } else {
             addIterationState(iteration, iterationState); // Add if no state exists
         }
+    }
+
+    public void setFinalState(IterationState iterationState) {
         this.finalState = iterationState;
     }
 

@@ -37,7 +37,7 @@ public class Heuristics {
         Map<String, Solution> newSolutions = copySolution(currentSolutions);
     
         for (Map.Entry<String, Solution> entry : newSolutions.entrySet()) {
-            String problemName = entry.getKey();
+            //String problemName = entry.getKey();
             Solution newSolution = entry.getValue();
             
             List<Bin> bins = newSolution.getFinalState().getBins();
