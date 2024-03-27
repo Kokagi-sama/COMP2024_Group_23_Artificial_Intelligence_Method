@@ -10,8 +10,10 @@ public class Heuristics {
         double fitness = 0;
     
         for (Bin bin : solution.getBins()) {
-            double filledRatio = (double) (bin.getCapacity() - bin.getRemainingCapacity()) / bin.getCapacity();
-            fitness += Math.pow(filledRatio, z);
+            double load = (double) (bin.getCapacity() - bin.getRemainingCapacity());
+            double load_square = Math.pow(load, 2);
+            double filledRatio = load_square / (double) bin.getCapacity();
+            fitness += filledRatio;
         }
     
         return fitness / solution.getBinCount();
@@ -74,6 +76,7 @@ public class Heuristics {
                     Item itemJ = binJ.getItems().get(itemIndexJ);
 
                     double deltaF = calculateDeltaF(binI, binJ, itemI, itemJ);
+                    // System.out.println(deltaF);
                     if (deltaF >= 0 && 
                         binI.getRemainingCapacity() + itemJ.getWeight() - itemI.getWeight() >= 0 &&
                         binJ.getRemainingCapacity() + itemI.getWeight() - itemJ.getWeight() >= 0) {
@@ -92,13 +95,71 @@ public class Heuristics {
     private static double calculateDeltaF(Bin binI, Bin binJ, Item itemI, Item itemJ) {
         int lI = binI.getCapacity() - binI.getRemainingCapacity();
         int lJ = binJ.getCapacity() - binJ.getRemainingCapacity();
-        int tI = itemI.getWeight();
+        int tI = itemI != null ? itemI.getWeight() : 0;
         int tJ = itemJ != null ? itemJ.getWeight() : 0;
 
         return Math.pow((lI - tI + tJ), 2) + Math.pow((lJ + tI - tJ), 2) - Math.pow(lI, 2) - Math.pow(lJ, 2);
     }
+
+    // public ArrayList<Solution> generateNeighbor(ArrayList<Solution> currentSolutions) {
+    //     Random random = new Random();
+
+    //     for(Solution currentSolution: currentSolutions) {
+    //         // Deep copy all current solutions
+    //         Solution newSolution = copySolution(currentSolution);
+    //         List<Bin> bins = newSolution.getBins();
+
+    //         if (!bins.isEmpty()) {
+    //             int binIndexFrom = random.nextInt(bins.size());
+    //             Bin binFrom = bins.get(binIndexFrom);
+
+    //             if (!binFrom.getItems().isEmpty()) {
+    //                 int itemIndex = random.nextInt(binFrom.getItems().size());
+    //                 Item itemToMove = binFrom.getItems().remove(itemIndex);
+
+    //                 // Try to place the item in a different bin
+    //                 int binIndexTo = random.nextInt(bins.size());
+    //                 // Ensure we select a different bin
+    //                 while (binIndexTo == binIndexFrom) {
+    //                     binIndexTo = random.nextInt(bins.size());
+    //                 }
+
+    //                 Bin binTo = bins.get(binIndexTo);
+    //                 if (binTo.getRemainingCapacity() >= itemToMove.getWeight()) {
+    //                     binTo.getItems().add(itemToMove);
+    //                     binTo.setRemainingCapacity(binTo.getRemainingCapacity() - itemToMove.getWeight());
+    //                 } else {
+    //                     // If it doesn't fit, put it back and consider this a failed attempt to find a neighbor
+    //                     binFrom.getItems().add(itemToMove);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+        
+   
+    //     return newSolutions;
+    // }
     
-    public static Solution copySolution(Solution solution) {
-        return solution;
+    // Method to deep copy a Solution
+    public static Solution copySolution(Solution original) {
+        Solution copySolution = new Solution();
+        copySolution.setProblemName(original.getProblemName());
+        
+
+        for (Bin originalBin : original.getBins()) {
+            Bin copiedBin = new Bin(originalBin.getId(), originalBin.getCapacity(), originalBin.getRemainingCapacity());
+
+            for (Item originalItem : originalBin.getItems()) {
+                Item copiedItem = new Item(originalItem.getWeight());
+                copiedBin.getItems().add(copiedItem);
+            }
+
+            copySolution.getBins().add(copiedBin);
+        }
+
+        copySolution.setBinCount(copySolution.getBins().size());
+
+        return copySolution;
     }
 }

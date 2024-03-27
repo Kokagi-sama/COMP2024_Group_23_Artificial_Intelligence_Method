@@ -3,6 +3,7 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "d:\\University of Nottingham\\AIM\\COMP2024_Group_23\\custom_aim_framework\\target\\aimframeworkgrp23.jar"
+        "d:\\University of Nottingham\\AIM\\COMP2024_Group_23\\custom_aim_framework\\target\\aimframeworkgrp23.jar",
+        "c:\\Users\\xiaob\\Documents\\AIM\\Coursework\\COMP2024_Group_23\\custom_aim_framework\\target\\aimframeworkgrp23.jar"
     ]
 }

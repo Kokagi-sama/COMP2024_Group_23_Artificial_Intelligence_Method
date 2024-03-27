@@ -1,12 +1,12 @@
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\PrintSolutionToFile.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\BinPackingProblem.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Heuristics.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\FirstFitAlgorithm.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Initialise.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Item.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\ChartUtils.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\FinalSolution.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Generation.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\TextFileReader.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Bin.java
-D:\University of Nottingham\AIM\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Solution.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Generation.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Item.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\TextFileReader.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\ChartUtils.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\PrintSolutionToFile.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Bin.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\FirstFitAlgorithm.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Solution.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Initialise.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\Heuristics.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\BinPackingProblem.java
+C:\Users\xiaob\Documents\AIM\Coursework\COMP2024_Group_23\custom_aim_framework\src\main\java\com\aimframeworkgrp23\FinalSolution.java
