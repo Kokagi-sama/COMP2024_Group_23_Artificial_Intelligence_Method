@@ -1,39 +1,39 @@
 package com.aimframeworkgrp23;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Solution {
-    String problemName;
-    Map<Integer, IterationState> iterationStates;
-    IterationState finalState;
+    String problem_name;
+    private int binCount;
+    private ArrayList<Bin> bins;
 
-    public Solution(String problemName) {
-        this.problemName = problemName;
-        this.iterationStates = new LinkedHashMap<>();
+    public Solution() {
+        this.problem_name = "";
+        this.binCount = -1;
+        this.bins = new ArrayList<Bin>();
     }
 
-    public void addIterationState(int iteration, IterationState iterationState) {
-        this.iterationStates.put(iteration, iterationState);
+    public String getProblemName() {
+        return problem_name;
     }
 
-    public void updateIterationState(int iteration, IterationState iterationState) {
-        if (!this.iterationStates.isEmpty()) {
-            this.iterationStates.put(iteration, iterationState);
-        } else {
-            addIterationState(iteration, iterationState); // Add if no state exists
-        }
+    public void setProblemName(String problem_name) {
+        this.problem_name = problem_name;
     }
 
-    public void setFinalState(IterationState iterationState) {
-        this.finalState = iterationState;
+    public int getBinCount() {
+        return binCount;
     }
 
-    Map<Integer, IterationState> getIterationStates() {
-        return iterationStates;
+    public void setBinCount(int binCount) {
+        this.binCount = binCount;
     }
 
-    public IterationState getFinalState() {
-        return this.finalState;
+    public ArrayList<Bin> getBins() {
+        return bins;
+    }
+
+    public void setBins(ArrayList<Bin> bins) {
+        this.bins = bins;
     }
 }

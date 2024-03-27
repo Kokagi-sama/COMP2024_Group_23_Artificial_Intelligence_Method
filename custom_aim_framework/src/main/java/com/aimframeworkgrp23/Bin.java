@@ -1,12 +1,11 @@
 package com.aimframeworkgrp23;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // Inner class to represent a Bin
 public class Bin {
     int id;
-    List<Item> items;
+    ArrayList<Item> items;
     int capacity;
     int remainingCapacity;
 
@@ -21,9 +20,11 @@ public class Bin {
         return this.id;
     }
 
-    public List<Item> getItems() {
+    public ArrayList<Item> getItems() {
         return this.items;
-    }
+    }public Solution copySolution(Solution solution) {
+        return solution;
+      }
 
     public int getCapacity() {
         return this.capacity;

@@ -1,127 +1,104 @@
 package com.aimframeworkgrp23;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class Heuristics {
 
-    private final Random random;
-
-    public Heuristics() {
-        this.random = new Random();
-    }
-
-    public Random getRandom() {
-        return this.random;
-    }
-
-    // Assume we need to calculate the objective function for each solution in the map
-    public double objectiveFunction(Map<String, Solution> solutions) {
+    // Objective function
+    public static double objectiveFunction(Solution solution, int z) {
         double fitness = 0;
-        for (Solution solution : solutions.values()) {
-            IterationState finalState = solution.getFinalState();
-            for (Bin bin : finalState.getBins()) {
-                fitness += Math.pow((bin.getCapacity() - bin.getRemainingCapacity()), 2);
-            }
-            
+    
+        for (Bin bin : solution.getBins()) {
+            double filledRatio = (double) (bin.getCapacity() - bin.getRemainingCapacity()) / bin.getCapacity();
+            fitness += Math.pow(filledRatio, z);
         }
-        return fitness;
+    
+        return fitness / solution.getBinCount();
+    }
+
+    // Overloaded objective function with default z value = 2
+    public static double objectiveFunction(Solution solution) {
+        return objectiveFunction(solution, 2);
     }
 
     // Generate a neighbor for each solution in the map
-    public Map<String, Solution> generateNeighbor(Map<String, Solution> currentSolutions) {
-        // Deep copy all current solutions
-        Map<String, Solution> newSolutions = copySolution(currentSolutions);
+    public static ArrayList<Solution> generateNeighbour(Solution currentSolution, int population_size) {
+        
+        ArrayList<Solution> neighbourhood = new ArrayList<Solution>();
+
+        for (int i = 0; i < population_size; i++) {
+            neighbourhood.add(currentSolution);
+        }
     
-        for (Map.Entry<String, Solution> entry : newSolutions.entrySet()) {
-            //String problemName = entry.getKey();
-            Solution newSolution = entry.getValue();
-            
-            List<Bin> bins = newSolution.getFinalState().getBins();
-            int iteration = newSolution.getFinalState().getIteration();
-    
-            if (!bins.isEmpty()) {
-                int binIndexFrom = random.nextInt(bins.size());
-                Bin binFrom = bins.get(binIndexFrom);
-    
-                if (!binFrom.getItems().isEmpty()) {
-                    int itemIndex = random.nextInt(binFrom.getItems().size());
-                    Item itemToMove = binFrom.getItems().remove(itemIndex);
-    
-                    // Try to place the item in a different bin
-                    int binIndexTo = random.nextInt(bins.size());
-                    // Ensure we select a different bin
-                    while (binIndexTo == binIndexFrom) {
-                        binIndexTo = random.nextInt(bins.size());
+        return neighbourhood;
+    }
+
+    public static ArrayList<Solution> swapAndEvaluate(ArrayList<Solution> neighbourhood) {
+        Random rand = new Random();
+
+        for (Solution neighbour : neighbourhood) {
+            int binCount = neighbour.getBinCount();
+            ArrayList<Bin> bins = neighbour.getBins();
+
+            if (binCount > 1) {
+                int i = rand.nextInt(binCount);
+                int j = i;
+                while (j == i) {
+                    j = rand.nextInt(binCount);
+                }
+
+                Bin binI = bins.get(i);
+                Bin binJ = bins.get(j);
+
+                // Swap (1,0) - Moving one item from bin I to bin J
+                if (!binI.getItems().isEmpty()) {
+                    int itemIndex = rand.nextInt(binI.getItems().size());
+                    Item itemI = binI.getItems().get(itemIndex);
+
+                    // Assuming calculateDeltaF and objectiveFunction methods are defined elsewhere
+                    double deltaF = calculateDeltaF(binI, binJ, itemI, null);
+                    if (deltaF >= 0 && binJ.getRemainingCapacity() >= itemI.getWeight()) {
+                        binI.getItems().remove(itemI);
+                        binJ.getItems().add(itemI);
+                        binI.setRemainingCapacity(binI.getRemainingCapacity() + itemI.getWeight());
+                        binJ.setRemainingCapacity(binJ.getRemainingCapacity() - itemI.getWeight());
                     }
-    
-                    Bin binTo = bins.get(binIndexTo);
-                    if (binTo.getRemainingCapacity() >= itemToMove.getWeight()) {
-                        binTo.getItems().add(itemToMove);
-                        binTo.setRemainingCapacity(binTo.getRemainingCapacity() - itemToMove.getWeight());
-                    } else {
-                        // If it doesn't fit, put it back and consider this a failed attempt to find a neighbor
-                        binFrom.getItems().add(itemToMove);
+                }
+
+                // Swap (1,1) - Swapping items between bin I and bin J
+                if (!binI.getItems().isEmpty() && !binJ.getItems().isEmpty()) {
+                    int itemIndexI = rand.nextInt(binI.getItems().size());
+                    int itemIndexJ = rand.nextInt(binJ.getItems().size());
+                    Item itemI = binI.getItems().get(itemIndexI);
+                    Item itemJ = binJ.getItems().get(itemIndexJ);
+
+                    double deltaF = calculateDeltaF(binI, binJ, itemI, itemJ);
+                    if (deltaF >= 0 && 
+                        binI.getRemainingCapacity() + itemJ.getWeight() - itemI.getWeight() >= 0 &&
+                        binJ.getRemainingCapacity() + itemI.getWeight() - itemJ.getWeight() >= 0) {
+                        binI.getItems().set(itemIndexI, itemJ);
+                        binJ.getItems().set(itemIndexJ, itemI);
+                        binI.setRemainingCapacity(binI.getRemainingCapacity() + itemJ.getWeight() - itemI.getWeight());
+                        binJ.setRemainingCapacity(binJ.getRemainingCapacity() + itemI.getWeight() - itemJ.getWeight());
                     }
                 }
             }
-            IterationState newIterationState = createIterationState(bins, iteration);
-            newSolution.updateIterationState(iteration, newIterationState);
-            iteration++;
         }
-    
-        return newSolutions;
+        return neighbourhood;
     }
-    
-    private IterationState createIterationState(List<Bin> bins, int iteration) {
-        int usedBinCount = 0;
-        for (Bin bin : bins) {
-            if (bin.getCapacity() - bin.getRemainingCapacity() > 0) { // Bin is used
-                usedBinCount++;
-            }
-        }
-        return new IterationState(iteration, usedBinCount, bins);
-    }    
 
-    // Copy the Solution object deeply
-    public Map<String, Solution> copySolution(Map<String, Solution> solutions) {
-        Map<String, Solution> newSolutions = new LinkedHashMap<>();
-        for (Map.Entry<String, Solution> entry : solutions.entrySet()) {
-            String problemName = entry.getKey();
-            Solution solution = entry.getValue();
-    
-            Solution newSolution = new Solution(problemName);
-            for (Map.Entry<Integer, IterationState> stateEntry : solution.getIterationStates().entrySet()) {
-                int iteration = stateEntry.getKey();
-                IterationState state = stateEntry.getValue();
-                IterationState newState = createIterationState(copyBins(state.getBins()), iteration);
-                newSolution.addIterationState(iteration, newState);
-            }
-    
-            newSolutions.put(problemName, newSolution);
-        }
-        return newSolutions;
+    // Change in fitness
+    private static double calculateDeltaF(Bin binI, Bin binJ, Item itemI, Item itemJ) {
+        int lI = binI.getCapacity() - binI.getRemainingCapacity();
+        int lJ = binJ.getCapacity() - binJ.getRemainingCapacity();
+        int tI = itemI.getWeight();
+        int tJ = itemJ != null ? itemJ.getWeight() : 0;
+
+        return Math.pow((lI - tI + tJ), 2) + Math.pow((lJ + tI - tJ), 2) - Math.pow(lI, 2) - Math.pow(lJ, 2);
     }
     
-    
-    private List<Bin> copyBins(List<Bin> bins) {
-        List<Bin> newBins = new ArrayList<>();
-        for (Bin bin : bins) {
-            // Start with the full capacity for the new bin as the remaining capacity will be calculated based on added items.
-            Bin newBin = new Bin(bin.getId(), bin.getCapacity(), bin.getCapacity());
-            
-            // Copy items to the new bin and adjust the remaining capacity accordingly.
-            for (Item item : bin.getItems()) {
-                newBin.getItems().add(new Item(item.getWeight()));
-                // Reduce the remaining capacity only by the weight of the added items.
-                newBin.setRemainingCapacity(newBin.getRemainingCapacity() - item.getWeight());
-            }
-            newBins.add(newBin);
-        }
-        return newBins;
+    public static Solution copySolution(Solution solution) {
+        return solution;
     }
-    
 }

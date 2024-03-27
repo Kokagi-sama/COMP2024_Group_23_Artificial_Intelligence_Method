@@ -2,11 +2,11 @@ com\aimframeworkgrp23\ChartUtils.class
 com\aimframeworkgrp23\Bin.class
 com\aimframeworkgrp23\FirstFitAlgorithm.class
 com\aimframeworkgrp23\Item.class
-com\aimframeworkgrp23\PrintSolutionsToFile.class
 com\aimframeworkgrp23\BinPackingProblem.class
-com\aimframeworkgrp23\HeuristicsOld.class
-com\aimframeworkgrp23\InitialSolution.class
+com\aimframeworkgrp23\FinalSolution.class
 com\aimframeworkgrp23\Solution.class
-com\aimframeworkgrp23\IterationState.class
+com\aimframeworkgrp23\Generation.class
+com\aimframeworkgrp23\Initialise.class
+com\aimframeworkgrp23\PrintSolutionToFile.class
 com\aimframeworkgrp23\Heuristics.class
 com\aimframeworkgrp23\TextFileReader.class

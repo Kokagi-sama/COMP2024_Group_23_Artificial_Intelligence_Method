@@ -1,31 +1,37 @@
 package com.aim.coursework;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import com.aimframeworkgrp23.*;
 
 public class Main {
-    static String datasetPath = "./src/resources/BPP.txt";
-    static String initialSolutionPath = "./src/resources/initialSolution.txt";
-    static String simulatedAnnealingSolutionPath = "./src/resources/simulatedAnnealingSolution.txt";
+    static String dataset_path = "./src/resources/BPP.txt";
+    static String output_directory = "./src/resources";
 
     public static void main(String[] args) {
 
         try {
-            // Create heuristic object
-            Heuristics h1 = new Heuristics();
-
             // Reading Problems
-            LinkedHashSet<BinPackingProblem> problems = TextFileReader.readProblems(datasetPath);
+            LinkedHashSet<BinPackingProblem> problems = TextFileReader.readProblems(dataset_path);
+
+            // Initialising initial solution ArrayList
+            ArrayList<Solution> initial_solutions = new ArrayList<Solution>();
 
             // Creating and saving initial solution (using First Fit Algorithm from the framework)
-            Map<String, Solution> initialSolution = InitialSolution.getInitialSolution(problems);
-            PrintSolutionsToFile.saveResults(initialSolution, initialSolutionPath);
+            for (BinPackingProblem problem: problems) {
+                Initialise i = new Initialise(problem);
+                Solution initial_solution = i.getInitialSolution();
+                initial_solutions.add(initial_solution);
+                PrintSolutionToFile.saveInitialResult(initial_solution, output_directory, "FFD Initialisation");
+            }
 
             // Creating and saving Simulated Annealing solution
-//             SimulatedAnnealing sa = new SimulatedAnnealing(h1, initialSolution);
-//             Map<String, Solution> simulatedAnnealing_solution = sa.applySimulatedAnnealing();
-//             PrintSolutionsToFile.saveResults(simulatedAnnealing_solution, simulatedAnnealingSolutionPath);
+
+            for (Solution solution: initial_solutions) {
+                SimulatedAnnealing sa = new SimulatedAnnealing(solution);
+                FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
+                PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated Annealing");
+            }
 
             ChartUtils.buildAndDisplayChart("My Line Chart");
 

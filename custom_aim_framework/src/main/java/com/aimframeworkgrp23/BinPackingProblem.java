@@ -1,13 +1,12 @@
 package com.aimframeworkgrp23;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BinPackingProblem {
     private String problemName;
     private int uniqueWeightCount;
     private int binCapacity;
-    private List<Item> items;
+    private ArrayList<Item> items;
 
     public BinPackingProblem(String problemName, int uniqueWeightCount, int binCapacity) {
         this.problemName = problemName;
@@ -32,7 +31,7 @@ public class BinPackingProblem {
         return binCapacity;
     }
 
-    public List<Item> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 }
