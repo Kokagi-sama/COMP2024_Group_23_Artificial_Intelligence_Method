@@ -26,14 +26,12 @@ public class Main {
             }
 
             // Creating and saving Simulated Annealing solution
-
             for (Solution solution: initial_solutions) {
                 SimulatedAnnealing sa = new SimulatedAnnealing(solution);
                 FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
                 PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated Annealing");
+                ChartUtils.buildAndDisplayXYCharts(simulatedAnnealing_solution);
             }
-
-            ChartUtils.buildAndDisplayChart("My Line Chart");
 
         } catch (Exception e) {
             e.printStackTrace();

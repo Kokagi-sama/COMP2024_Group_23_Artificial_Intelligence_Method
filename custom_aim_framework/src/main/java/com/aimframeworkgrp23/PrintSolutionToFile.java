@@ -41,7 +41,7 @@ public class PrintSolutionToFile {
             BufferedWriter writer = new BufferedWriter(new FileWriter(save_file_path));
 
             writer.write("==== Initial Solution for problem: " + problem_name + " ====\n");
-            writer.write("Obejctive function value: " + Heuristics.objectiveFunction(initial_solution) + "\n");
+            writer.write("Obejctive function value: " + initial_solution.getObjectiveFunctionValue() + "\n");
             writer.write("Bins used: " + initial_solution.getBinCount() + "\n");
            
             writer.close();
@@ -64,7 +64,7 @@ public class PrintSolutionToFile {
             BufferedWriter writer = new BufferedWriter(new FileWriter(save_file_path));
 
             writer.write("==== Overall Best Solution for Problem: " + problem_name + " ====\n");
-            writer.write("Obejctive function value: " + Heuristics.objectiveFunction(overall_best_solution) + "\n");
+            writer.write("Obejctive function value: " + overall_best_solution.getObjectiveFunctionValue() + "\n");
             writer.write("Bins used: " + overall_best_solution.getBinCount() + "\n\n");
 
             for (Generation generation : generations) {
@@ -73,7 +73,7 @@ public class PrintSolutionToFile {
                 Solution solution = generation.getBestSolution();
 
                 writer.write("==== Best Solution for Generation: " + generation_id + " ====\n");
-                writer.write("Obejctive function value: " + Heuristics.objectiveFunction(solution) + "\n");
+                writer.write("Obejctive function value: " + solution.getObjectiveFunctionValue() + "\n");
                 writer.write("Bins used: " + solution.getBinCount() + "\n");
         
             }

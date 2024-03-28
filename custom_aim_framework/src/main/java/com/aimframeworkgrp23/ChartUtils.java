@@ -3,37 +3,65 @@ package com.aimframeworkgrp23;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.JFrame;
+import java.text.NumberFormat;
 
 public class ChartUtils {
 
-    public static void displayLineChart(String title, DefaultCategoryDataset dataset) {
-        JFreeChart lineChart = createLineChart(title, dataset);
-        showChartInFrame(title, lineChart);
+    public static void buildAndDisplayXYCharts(FinalSolution finalSolution) {
+        XYSeriesCollection objectiveDataset = new XYSeriesCollection();
+        XYSeriesCollection binCountDataset = new XYSeriesCollection();
+
+        XYSeries objectiveSeries = new XYSeries("Objective Value");
+        XYSeries binCountSeries = new XYSeries("Bin Count");
+
+        for (Generation generation : finalSolution.getGenerations()) {
+            int generationId = generation.getGenerationId();
+            double objectiveValue = generation.getBestSolution().getObjectiveFunctionValue();
+            int binCount = generation.getBestSolution().getBinCount();
+
+            objectiveSeries.add(generationId, objectiveValue);
+            binCountSeries.add(generationId, binCount);
+        }
+
+        objectiveDataset.addSeries(objectiveSeries);
+        binCountDataset.addSeries(binCountSeries);
+
+        String title = finalSolution.getBestSolution().getProblemName();
+        displayXYChart(title + " - Objective Value", objectiveDataset, true);
+        displayXYChart(title + " - Bin Count", binCountDataset, false);
     }
 
-    private static DefaultCategoryDataset createDataset() {
-        // This could be modified to accept data parameters
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(1.0, "Series1", "Category1");
-        dataset.addValue(4.0, "Series1", "Category2");
-        dataset.addValue(3.0, "Series1", "Category3");
-        dataset.addValue(5.0, "Series1", "Category4");
-        return dataset;
-    }
-
-    private static JFreeChart createLineChart(String title, DefaultCategoryDataset dataset) {
-        return ChartFactory.createLineChart(
+    private static void displayXYChart(String title, XYSeriesCollection dataset, boolean isObjectiveChart) {
+        JFreeChart xyChart = ChartFactory.createXYLineChart(
             title,
-            "Category",
-            "Value",
+            "Generation ID",
+            isObjectiveChart ? "Objective Value" : "Bin Count",
             dataset,
             org.jfree.chart.plot.PlotOrientation.VERTICAL,
             true,
             true,
             false
         );
+
+        XYPlot plot = xyChart.getXYPlot();
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        renderer.setSeriesLinesVisible(0, true);
+        renderer.setSeriesShapesVisible(0, false);
+        plot.setRenderer(renderer);
+
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        if (!isObjectiveChart) {
+            rangeAxis.setNumberFormatOverride(NumberFormat.getIntegerInstance());
+        }
+        rangeAxis.setAutoRangeIncludesZero(false);
+
+        showChartInFrame(title, xyChart);
     }
 
     private static void showChartInFrame(String title, JFreeChart chart) {
@@ -43,13 +71,7 @@ public class ChartUtils {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(chartPanel);
         frame.pack();
-        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    // External applications can use this method to create and display a line chart
-    public static void buildAndDisplayChart(String title) {
-        DefaultCategoryDataset dataset = createDataset(); // Or pass the dataset as a parameter
-        displayLineChart(title, dataset);
     }
 }

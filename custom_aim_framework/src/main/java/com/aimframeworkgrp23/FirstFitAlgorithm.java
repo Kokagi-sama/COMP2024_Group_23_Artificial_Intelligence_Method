@@ -42,6 +42,7 @@ public class FirstFitAlgorithm {
         solution.setProblemName(problem_name);
         solution.setBins(bins);
         solution.setBinCount(bins.size());
+        solution.setObjectiveFunctionValue(Heuristics.objectiveFunction(solution));
 
         return solution;
     }

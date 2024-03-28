@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 public class Generation {
     int generation_id;
-    int population_size;
     ArrayList<Solution> candidate_solutions;
     Solution best_solution;
 
     public Generation() {
         this.generation_id = -1;
-        this.population_size = -1;
         this.candidate_solutions = new ArrayList<Solution>();
         this.best_solution = new Solution();
     }
