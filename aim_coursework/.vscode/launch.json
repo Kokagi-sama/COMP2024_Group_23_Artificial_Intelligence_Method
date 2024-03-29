@@ -1,16 +1,12 @@
 {
-    "type": "java",
-    "name": "Debug (Launch)",
-    "request": "launch",
-    "mainClass": "${file}",
-    "vmArgs": "-Xmx5G",
-    "configurations": [
-      {
-        "type": "java",
-        "name": "Run Main",
-        "request": "launch",
-        "mainClass": "com.aim.coursework.Main",
-        "projectName": "aim_coursework_1866dbc4"
-      }
-    ]
-  }
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "com.aim.coursework.Main",
+      "projectName": "aim_coursework_3643205a",
+      "vmArgs": "-Xmx24576m",
+    }
+  ]
+}

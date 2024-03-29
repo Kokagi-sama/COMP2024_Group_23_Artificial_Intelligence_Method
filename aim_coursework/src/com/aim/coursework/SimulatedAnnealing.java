@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class SimulatedAnnealing {
     private static final double START_TEMPERATURE = 100.0;
     private static final double COOLING_RATE = 0.95;
-    private static final int ITERATIONS_PER_TEMPERATURE = 10;
+    private static final int ITERATIONS_PER_TEMPERATURE = 5;
     private static final int POPULATION_SIZE = 5;
     private static final double BOLTZMANN_CONSTANT = 0.2;
     private static final double MAX_STAGNANT_GENERATIONS = 10;
