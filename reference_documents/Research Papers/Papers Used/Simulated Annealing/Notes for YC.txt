@@ -1,0 +1,7 @@
+Why we used the parameters we did:
+
+No Reheating, 20 Population Size, 100 Start Temp, 50 iterations per temp
+9297.136300000002
+
+No Reheating, 500 Population Size, 1000 Start Temp
+9297.139406666665

@@ -30,7 +30,7 @@ public class Main {
                 SimulatedAnnealing sa = new SimulatedAnnealing(solution);
                 FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
                 PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated Annealing");
-                //ChartUtils.buildAndDisplayXYCharts(simulatedAnnealing_solution);
+                ChartUtils.buildAndDisplayXYCharts(simulatedAnnealing_solution);
             }
 
         } catch (Exception e) {
