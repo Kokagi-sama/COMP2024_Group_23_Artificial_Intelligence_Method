@@ -1,32 +1,12 @@
 package com.aimframeworkgrp23;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class PrintSolutionToFile {
-
-    public static void checkAndClearDirectory(String directoryPath) throws IOException {
-        Path directory = Paths.get(directoryPath);
-
-        // Create the directory if it doesn't exist, then return without clearing
-        if (Files.notExists(directory)) {
-            Files.createDirectories(directory);
-            return;
-        }
-
-        // If the directory exists, clear the contents
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
-            for (Path file : stream) {
-                Files.delete(file);  // Delete each file/directory in the directory
-            }
-        }
-    }
 
     public static void saveInitialResult(Solution initial_solution, String output_directory, String algorithm_name) {
         
@@ -36,8 +16,9 @@ public class PrintSolutionToFile {
 
         try {
 
-            checkAndClearDirectory(save_directory);
-        
+            // Ensure directory exists
+            new File(save_directory).mkdirs();
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(save_file_path));
 
             writer.write("==== Initial Solution for problem: " + problem_name + " ====\n");
@@ -58,8 +39,12 @@ public class PrintSolutionToFile {
         String save_directory = output_directory + "/" + problem_name + "/" + algorithm_name;
         String save_file_path = save_directory + "/" + problem_name + "_" + algorithm_name + ".txt";
 
+        
+
         try {
-            checkAndClearDirectory(save_directory);
+
+            // Ensure directory exists
+            new File(save_directory).mkdirs();
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(save_file_path));
 
