@@ -1,6 +1,8 @@
 package com.aimframeworkgrp23;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Solution {
     String problem_name;
@@ -45,5 +47,21 @@ public class Solution {
 
     public void setBins(ArrayList<Bin> bins) {
         this.bins = bins;
+    }
+
+    // Retrieve all items from all bins in the solution, sorted by item IDs
+    public ArrayList<Item> getAllBinItems() {
+        ArrayList<Item> items = new ArrayList<>();
+        for (Bin bin : this.bins) {
+            items.addAll(bin.getItems());
+        }
+        // Sorting items by their item IDs
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item item1, Item item2) {
+                return Integer.compare(item1.getItemId(), item2.getItemId());
+            }
+        });
+        return items;
     }
 }

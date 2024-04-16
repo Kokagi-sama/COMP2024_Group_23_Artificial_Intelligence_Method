@@ -52,6 +52,15 @@ public class PrintSolutionToFile {
             writer.write("Obejctive function value: " + overall_best_solution.getObjectiveFunctionValue() + "\n");
             writer.write("Bins used: " + overall_best_solution.getBinCount() + "\n\n");
 
+            // // Printing bins and contents for debugging
+            // for (Bin bin : overall_best_solution.getBins()) {
+            //     writer.write("Bin " + bin.getId() + " (Capacity: " + bin.getCapacity() + ", Remaining: " + bin.getRemainingCapacity() + "):\n");
+            //     for (Item item : bin.getItems()) {
+            //         writer.write("    Item ID: " + item.getItemId() + ", Weight: " + item.getWeight() + "\n");
+            //     }
+            //     writer.write("\n");
+            // }
+
             for (Generation generation : generations) {
                 
                 int generation_id = generation.getGenerationId();

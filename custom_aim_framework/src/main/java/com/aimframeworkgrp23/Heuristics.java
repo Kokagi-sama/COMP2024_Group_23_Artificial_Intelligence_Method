@@ -22,6 +22,25 @@ public class Heuristics {
     public static double objectiveFunction(Solution solution) {
         return objectiveFunction(solution, 2);
     }
+    
+    // Objective function for Arraylist of Bins passed directly
+    public static double objectiveFunction (ArrayList<Bin> bins, int z) {
+        double fitness = 0;
+
+        for (Bin bin : bins) {
+            double load = (double) (bin.getCapacity() - bin.getRemainingCapacity());
+            double load_square = Math.pow(load, z);
+            double filledRatio = load_square / (double) bin.getCapacity();
+            fitness += filledRatio;
+        }
+
+        return fitness / bins.size();
+    }
+
+    // Overloaded objective function with default z value = 2 for ArrayList of Bins passed directly
+    public static double objectiveFunction(ArrayList<Bin> bins) {
+        return objectiveFunction(bins, 2);
+    }
 
     // Generate a neighbor for each solution in the map
     public static ArrayList<Solution> generateNeighbour(Solution currentSolution, int population_size) {
@@ -46,6 +65,8 @@ public class Heuristics {
 
             for (Item originalItem : originalBin.getItems()) {
                 Item copiedItem = new Item(originalItem.getWeight());
+                copiedItem.setBinId(originalItem.getBinId());
+                copiedItem.setItemId(originalItem.getItemId());
                 copiedBin.getItems().add(copiedItem);
             }
 

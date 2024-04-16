@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class SimulatedAnnealing {
+
+    // Parameters
     private static final double START_TEMPERATURE = 100.0;
     private static final double COOLING_RATE = 0.95;
     private static final int ITERATIONS_PER_TEMPERATURE = 50;
@@ -59,7 +61,6 @@ public class SimulatedAnnealing {
             }
             
             temperature *= COOLING_RATE;
-            // temperature = 0;
             
         }
 

@@ -10,6 +10,7 @@ public class Main {
     static final int chartWidth = 560;
     static final int chartHeight = 367;
 
+
     public static void main(String[] args) {
 
         try {
@@ -25,8 +26,8 @@ public class Main {
 
             // Creating and saving initial solution (using First Fit Algorithm from the framework)
             for (BinPackingProblem problem: problems) {
-                Initialise i = new Initialise(problem);
-                Solution initial_solution = i.getInitialSolution();
+                Initialise initialiser = new Initialise(problem);
+                Solution initial_solution = initialiser.getInitialSolution();
                 initial_solutions.add(initial_solution);
                 PrintSolutionToFile.saveInitialResult(initial_solution, output_directory, "FFD_Initialisation");
             }
@@ -37,6 +38,15 @@ public class Main {
                 FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
                 PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated_Annealing");
                 ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing", simulatedAnnealing_solution, chartWidth, chartHeight);
+            }
+
+            // Creating and saving Genetic Algorithm solution
+
+            for (BinPackingProblem problem: problems) {
+                GeneticAlgorithm ga = new GeneticAlgorithm(problem);
+                FinalSolution genetic_algorithm_solution = ga.applyGeneticAlgorithm();
+                PrintSolutionToFile.saveResult(genetic_algorithm_solution, output_directory, "Genetic_Algorithm");
+                ChartUtilities.buildAndDisplayXYCharts("Genetic_Algorithm", genetic_algorithm_solution, chartWidth, chartHeight);
             }
 
         } catch (Exception e) {

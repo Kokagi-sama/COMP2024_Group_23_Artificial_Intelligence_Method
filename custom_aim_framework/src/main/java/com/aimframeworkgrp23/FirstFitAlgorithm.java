@@ -26,6 +26,7 @@ public class FirstFitAlgorithm {
             for (Bin bin : bins) {
                 if (bin.getRemainingCapacity() >= item.getWeight()) {
                     bin.getItems().add(item);
+                    item.setBinId(binId);
                     bin.setRemainingCapacity(bin.getRemainingCapacity() - item.getWeight());
                     placed = true;
                     break;
@@ -36,6 +37,7 @@ public class FirstFitAlgorithm {
                 Bin newBin = new Bin(binId++, problem.getBinCapacity(), problem.getBinCapacity() - item.getWeight());
                 newBin.getItems().add(item);
                 bins.add(newBin);
+                item.setBinId(binId);
             }
         }
         
