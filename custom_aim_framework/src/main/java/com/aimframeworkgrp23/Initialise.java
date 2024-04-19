@@ -17,24 +17,6 @@ public class Initialise {
         return solution;
     }
 
-    // public ArrayList<Solution> getInitialPopulation(int population_size) {
-    //     ArrayList<Solution> initialPopulation = new ArrayList<>();
-    //     for (int i = 0; i < population_size; i++) {
-    //         BinPackingProblem randomizedProblem = new BinPackingProblem(
-    //             this.problem.getProblemName(),
-    //             this.problem.getUniqueWeightCount(),
-    //             this.problem.getBinCapacity()
-    //         );
-    //         for (Item item : this.problem.randomizeItems()) {
-    //             randomizedProblem.addItem(item.getWeight());
-    //         }
-    //         FirstFitAlgorithm ff = new FirstFitAlgorithm(randomizedProblem);
-    //         Solution randomizedSolution = ff.applyFirstFit();
-    //         initialPopulation.add(randomizedSolution);
-    //     }
-    //     return initialPopulation;
-    // }
-
     public ArrayList<Solution> getInitialPopulation(int population_size) {
         ArrayList<Solution> initialPopulation = new ArrayList<>();
         for (int i = 0; i < population_size; i++) {

@@ -41,12 +41,16 @@ public class Main {
             }
 
             // Creating and saving Genetic Algorithm solution
-
             for (BinPackingProblem problem: problems) {
                 GeneticAlgorithm ga = new GeneticAlgorithm(problem);
                 FinalSolution genetic_algorithm_solution = ga.applyGeneticAlgorithm();
                 PrintSolutionToFile.saveResult(genetic_algorithm_solution, output_directory, "Genetic_Algorithm");
                 ChartUtilities.buildAndDisplayXYCharts("Genetic_Algorithm", genetic_algorithm_solution, chartWidth, chartHeight);
+            }
+
+            // Creating and saving SAWMBS
+            for (Solution solution: initial_solutions) {
+                SAWMBS sawmbs = new SAWMBS(solution);
             }
 
         } catch (Exception e) {
