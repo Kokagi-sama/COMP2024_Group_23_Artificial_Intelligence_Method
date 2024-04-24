@@ -48,10 +48,18 @@ public class Main {
                 ChartUtilities.buildAndDisplayXYCharts("Genetic_Algorithm", genetic_algorithm_solution, chartWidth, chartHeight);
             }
 
-            // Creating and saving SAWMBS
-            for (Solution solution: initial_solutions) {
-                SAWMBS sawmbs = new SAWMBS(solution);
+            // Creating and saving Adaptive Fitness Dependent Optimizer solution
+            for (BinPackingProblem problem: problems) {
+                AdaptiveFitnessDependentOptimizer AFDO = new AdaptiveFitnessDependentOptimizer(problem);
+                FinalSolution ADFO_algorithm_solution = AFDO.applyAdaptiveFitnessDependentOptimizerAlgorithm();
+                PrintSolutionToFile.saveResult(ADFO_algorithm_solution, output_directory, "ADFO_Algorithm");
+                ChartUtilities.buildAndDisplayXYCharts("ADFO_Algorithm", ADFO_algorithm_solution, chartWidth, chartHeight);
             }
+
+            // Creating and saving SAWMBS
+            // for (Solution solution: initial_solutions) {
+            //     PerturbationSAWMBS p_sawmbs = new PerturbationSAWMBS(solution);
+            // }
 
         } catch (Exception e) {
             e.printStackTrace();
