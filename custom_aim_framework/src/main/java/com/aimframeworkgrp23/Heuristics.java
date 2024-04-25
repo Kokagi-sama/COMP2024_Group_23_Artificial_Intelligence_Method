@@ -78,5 +78,20 @@ public class Heuristics {
 
         return copySolution;
     }
+
+    public static int calculateLowerBound(ArrayList<Bin> bins, int bin_capacity) {
+        int lower_bound = -1;
+        double total_bin_weight = 0.0;
+
+        for (Bin bin: bins) {
+            for (Item item: bin.getItems()) {
+                total_bin_weight += item.getWeight();
+            }
+        }
+
+        lower_bound = (int) Math.ceil(total_bin_weight / bin_capacity);
+
+        return lower_bound;
+    }
 }
 

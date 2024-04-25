@@ -189,6 +189,9 @@ public class GeneticAlgorithm {
         // To store final solution
         FinalSolution final_solution = new FinalSolution();
 
+        // Global best no. of bins
+        int b_star = -1;
+
         for (int generation_id = 1; generation_id <= MAX_GENERATIONS; generation_id++) {
             // Get parents
             Solution parent1 = tournamentSelection();
@@ -226,6 +229,13 @@ public class GeneticAlgorithm {
                                                         .max(Comparator.comparingDouble(Solution::getObjectiveFunctionValue))
                                                         .orElse(null));
             generation_results.add(generation);
+
+            b_star = generation.getBestSolution().getBinCount();
+
+            // Terminate if lower bound has been achieved
+            if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
+                break;
+            }
         }
 
         // Set the best solution from the last generation

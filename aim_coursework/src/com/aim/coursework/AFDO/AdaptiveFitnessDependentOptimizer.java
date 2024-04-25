@@ -31,6 +31,9 @@ public class AdaptiveFitnessDependentOptimizer {
         // To store final solution
         FinalSolution final_solution = new FinalSolution();
 
+        // Global best no. of bins
+        int b_star = -1;
+
         for (int generation_id = 1; generation_id < T_MAX; generation_id++) {
 
             // Initialize best solution with the first solution
@@ -45,6 +48,8 @@ public class AdaptiveFitnessDependentOptimizer {
                     f_X_star_it = f_X_it;
                 }
             }
+
+            b_star = X_star_it.getBinCount();
 
             for(Solution X_it : initial_population) {
 
@@ -61,13 +66,13 @@ public class AdaptiveFitnessDependentOptimizer {
                     
                     ArrayList<Item> allSolutionItems = X_it.getAllBinItems();
 
-                    System.out.println("Total No. of Bins: " + X_it_plus_one.getBinCount());
+                    // System.out.println("Total No. of Bins: " + X_it_plus_one.getBinCount());
 
-                    for (Item item: allSolutionItems) {
-                        System.out.println("Item ID: " + item.getItemId());
-                        System.out.println("Bin ID: " + item.getBinId());
-                        System.out.println();
-                    }
+                    // for (Item item: allSolutionItems) {
+                    //     System.out.println("Item ID: " + item.getItemId());
+                    //     System.out.println("Bin ID: " + item.getBinId());
+                    //     System.out.println();
+                    // }
 
                     int number_of_items_in_solution = allSolutionItems.size();
                     //System.out.println(number_of_items_in_solution);
@@ -105,11 +110,12 @@ public class AdaptiveFitnessDependentOptimizer {
                         // Check capacity before moving item
                         if (newBin.getRemainingCapacity() >= item.getWeight()) {
                             // Move item
-                            currentBin.getItems().remove(item);
-                            currentBin.setRemainingCapacity(currentBin.getRemainingCapacity() + item.getWeight());
-                            item.setBinId(new_random_bin_id);
-                            newBin.getItems().add(item);
-                            newBin.setRemainingCapacity(newBin.getRemainingCapacity() - item.getWeight());
+                            if (currentBin.getItems().removeIf(i -> i.getItemId() == item.getItemId())) {
+                                currentBin.setRemainingCapacity(currentBin.getRemainingCapacity() + item.getWeight());
+                                item.setBinId(new_random_bin_id);
+                                newBin.getItems().add(item);
+                                newBin.setRemainingCapacity(newBin.getRemainingCapacity() - item.getWeight());
+                            }
                         }
                         
                     }
@@ -118,15 +124,17 @@ public class AdaptiveFitnessDependentOptimizer {
                     if (newObjectiveValue > f_X_it) {
                         X_it_plus_one.setObjectiveFunctionValue(newObjectiveValue);
 
-                        // System.out.println("Bin of: " + X_it_plus_one.getProblemName());
+                        System.out.println("Bin of: " + X_it_plus_one.getProblemName());
                         
-                        // for (Bin bin : X_it_plus_one.getBins()) {
-                        //     for (Item item : bin.getItems()) {
-                        //         System.out.println("Item ID: " + item.getItemId());
-                        //         System.out.println("Bin ID: " + item.getBinId());
-                        //         System.out.println();
-                        //     }
-                        // }
+                        int i = 1;
+                        for (Bin bin : X_it_plus_one.getBins()) {
+                            System.out.println("Bin ID: " + i++);
+                            for (Item item : bin.getItems()) {
+                                System.out.println("Item ID: " + item.getItemId());
+                                
+                                System.out.println();
+                            }
+                        }
                         
                         initial_population.set(initial_population.indexOf(X_it), X_it_plus_one);
                     }
@@ -141,6 +149,11 @@ public class AdaptiveFitnessDependentOptimizer {
                                                         .max(Comparator.comparingDouble(Solution::getObjectiveFunctionValue))
                                                         .orElse(null));
             generation_results.add(generation);
+
+            // Terminate if lower bound has been achieved
+            if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
+                break;
+            }
 
         }
 

@@ -34,7 +34,7 @@ public class Main {
                 PrintSolutionToFile.saveInitialResult(initial_solution, output_directory, "FFD_Initialisation");
             }
 
-            // Creating and saving Simulated Annealing solution
+            // // Creating and saving Simulated Annealing solution
             // for (Solution solution: initial_solutions) {
             //     SimulatedAnnealing sa = new SimulatedAnnealing(solution);
             //     FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
@@ -42,7 +42,7 @@ public class Main {
             //     ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing", simulatedAnnealing_solution, chartWidth, chartHeight);
             // }
 
-            // Creating and saving Genetic Algorithm solution
+            // // Creating and saving Genetic Algorithm solution
             // for (BinPackingProblem problem: problems) {
             //     GeneticAlgorithm ga = new GeneticAlgorithm(problem);
             //     FinalSolution genetic_algorithm_solution = ga.applyGeneticAlgorithm();

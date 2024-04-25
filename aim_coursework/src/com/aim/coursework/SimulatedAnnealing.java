@@ -34,6 +34,12 @@ public class SimulatedAnnealing {
         // To store final solution
         FinalSolution final_solution = new FinalSolution();
 
+        // Global best no. of bins
+        int b_star = -1;
+
+        // Flag to end Simulated Annealing if lower bound has been achieved
+        boolean end = false;
+
         while (temperature > 1) {
             for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++) {
                 ArrayList<Solution> neighbourhood_solutions = Heuristics.generateNeighbour(currentBestSolution, POPULATION_SIZE);
@@ -58,10 +64,23 @@ public class SimulatedAnnealing {
                 generation_results.add(generation);
 
                 generation_id++;
+
+                b_star = generation.getBestSolution().getBinCount();
+
+                // Terminate if lower bound has been achieved
+                if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
+                    end = true;
+                    break;
+                }
+
             }
             
             temperature *= COOLING_RATE;
             
+            // Terminate if lower bound has been achieved
+            if (end == true) {
+                break;
+            }
         }
 
         final_solution.setBestSolution(overallBestSolution);
