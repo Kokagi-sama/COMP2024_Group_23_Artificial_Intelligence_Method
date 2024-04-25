@@ -1,3 +1,3 @@
 ==== Initial Solution for problem: TEST0044 ====
-Obejctive function value: 9296.979980000002
+Obejctive function value: 0.929697998
 Bins used: 15

@@ -10,9 +10,9 @@ public class Heuristics {
     
         for (Bin bin : solution.getBins()) {
             double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
-            double load_square = Math.pow(load, z);
-            double filledRatio = load_square / (double) bin.getCapacity();
-            fitness += filledRatio;
+            double filledRatio = load / (double) bin.getCapacity();
+            double load_square = Math.pow(filledRatio, z);
+            fitness += load_square;
         }
     
         return fitness / solution.getBinCount();
@@ -29,9 +29,9 @@ public class Heuristics {
 
         for (Bin bin : bins) {
             double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
-            double load_square = Math.pow(load, z);
-            double filledRatio = load_square / (double) bin.getCapacity();
-            fitness += filledRatio;
+            double filledRatio = load / (double) bin.getCapacity();
+            double load_square = Math.pow(filledRatio, z);
+            fitness += load_square;
         }
 
         return fitness / bins.size();
@@ -77,6 +77,24 @@ public class Heuristics {
         copySolution.setBinCount(copySolution.getBins().size());
 
         return copySolution;
+    }
+
+    public static ArrayList<Item> copyItems(ArrayList<Item> items) {
+        ArrayList<Item> copyItems = new ArrayList<Item>();
+    
+        for (Item original : items) {
+            // Create a new Item object with the same weight
+            Item newItem = new Item(original.getWeight());
+            
+            // Set the same binId and itemId as the original item
+            newItem.setBinId(original.getBinId());
+            newItem.setItemId(original.getItemId());
+    
+            // Add the newly created item to the copied list
+            copyItems.add(newItem);
+        }
+    
+        return copyItems;
     }
 
     public static int calculateLowerBound(ArrayList<Bin> bins, int bin_capacity) {

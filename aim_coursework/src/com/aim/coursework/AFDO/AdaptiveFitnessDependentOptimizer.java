@@ -53,91 +53,89 @@ public class AdaptiveFitnessDependentOptimizer {
 
             for(Solution X_it : initial_population) {
 
+                double r = rand.nextDouble();
+
                 Solution X_it_plus_one = Heuristics.copySolution(X_it);
 
                 double f_X_it = X_it.getObjectiveFunctionValue();
 
-                double wf = 0;
+                double wf = 1;
 
-                double fw = Math.abs((f_X_star_it / f_X_it)) * wf;
+                double fw = Math.abs((1-(f_X_star_it)) / (1-(f_X_it))) * wf;
 
-                if (fw == 1 || fw == 0 || f_X_it == 0) {
-                    double r = rand.nextDouble();
-                    
-                    ArrayList<Item> allSolutionItems = X_it.getAllBinItems();
+                ArrayList<Item> allSolutionItems = X_it.getAllBinItems();
 
-                    // System.out.println("Total No. of Bins: " + X_it_plus_one.getBinCount());
+                ArrayList<Item> copyAllSolutionItems = Heuristics.copyItems(allSolutionItems);
 
-                    // for (Item item: allSolutionItems) {
-                    //     System.out.println("Item ID: " + item.getItemId());
-                    //     System.out.println("Bin ID: " + item.getBinId());
-                    //     System.out.println();
-                    // }
+                ArrayList<Item> bestSolutionItems = X_star_it.getAllBinItems();
 
+                int pace = 0;
+
+                boolean stable_walk = (fw == 1 || fw == 0 || f_X_it == 0);
+
+                // AFDO Walk
+                ArrayList<Integer> selectedItemIndexes = new ArrayList<Integer>();
+
+
+                if (stable_walk) {
                     int number_of_items_in_solution = allSolutionItems.size();
-                    //System.out.println(number_of_items_in_solution);
+                    pace = (int) Math.round(number_of_items_in_solution * r);
+                }
+
+                else {
+
+                    // Iterate over one list and check if the other list contains each item
+                    for (Item item : bestSolutionItems) {
+                        // Use removeIf to remove items based on item ID and bin ID
+                        copyAllSolutionItems.removeIf(copyItem -> 
+                            copyItem.getItemId() == item.getItemId() && copyItem.getBinId() == item.getBinId());
+                    }
+
+                    int number_of_items_in_copy_solution = copyAllSolutionItems.size();
                     
-                    int pace = (int) Math.round(number_of_items_in_solution * r);
-                    //System.out.println(r);
-                    //System.out.println(pace);
+                    pace = (int) Math.round(number_of_items_in_copy_solution * fw);
+                }
+                
+                while (selectedItemIndexes.size() < pace) {
+                    int randomIndex = rand.nextInt(stable_walk ? allSolutionItems.size() : copyAllSolutionItems.size());
+                    if (!selectedItemIndexes.contains(randomIndex)) {
+                        selectedItemIndexes.add(randomIndex);
+                    }
+                }
 
-                    ArrayList<Integer> selectedItemIndexes = new ArrayList<Integer>();
+                for (Integer index : selectedItemIndexes) {
+                    Item item = stable_walk ? allSolutionItems.get(index) : copyAllSolutionItems.get(index);
+                    int current_bin_id = item.getBinId();
+                    
+                    Bin currentBin = X_it_plus_one.getBins().get(current_bin_id - 1);
+                    int new_random_bin_id = current_bin_id;
 
-                    while (selectedItemIndexes.size() < pace) {
-                        int randomIndex = rand.nextInt(allSolutionItems.size());
-                        if (!selectedItemIndexes.contains(randomIndex)) {
-                            selectedItemIndexes.add(randomIndex);
-                        }
+                    while (new_random_bin_id == current_bin_id) {
+                        // new_random_bin_id is always between 1 and the number of bins (inclusive)
+                        new_random_bin_id = rand.nextInt(X_it.getBinCount()) + 1;
                     }
 
-                    for (Integer index : selectedItemIndexes) {
-                        //System.out.println("Item Index: " + index);
-                        Item item = allSolutionItems.get(index);
-                        int current_bin_id = item.getBinId();
-                        //System.out.println("Item ID: " + item.getItemId());
-                        //System.out.println("Bin ID: " + current_bin_id);
-                        
-                        Bin currentBin = X_it_plus_one.getBins().get(current_bin_id - 1);
-                        int new_random_bin_id = current_bin_id;
+                    Bin newBin = X_it_plus_one.getBins().get(new_random_bin_id - 1);
 
-                        while (new_random_bin_id == current_bin_id) {
-                            // new_random_bin_id is always between 1 and the number of bins (inclusive)
-                            new_random_bin_id = rand.nextInt(X_it.getBinCount()) + 1;
+                    // Check capacity before moving item
+                    if (newBin.getRemainingCapacity() >= item.getWeight()) {
+                        // Move item
+                        if (currentBin.getItems().removeIf(i -> i.getItemId() == item.getItemId())) {
+                            currentBin.setRemainingCapacity(currentBin.getRemainingCapacity() + item.getWeight());
+                            item.setBinId(new_random_bin_id);
+                            newBin.getItems().add(item);
+                            newBin.setRemainingCapacity(newBin.getRemainingCapacity() - item.getWeight());
                         }
-
-                        Bin newBin = X_it_plus_one.getBins().get(new_random_bin_id - 1);
-
-                        // Check capacity before moving item
-                        if (newBin.getRemainingCapacity() >= item.getWeight()) {
-                            // Move item
-                            if (currentBin.getItems().removeIf(i -> i.getItemId() == item.getItemId())) {
-                                currentBin.setRemainingCapacity(currentBin.getRemainingCapacity() + item.getWeight());
-                                item.setBinId(new_random_bin_id);
-                                newBin.getItems().add(item);
-                                newBin.setRemainingCapacity(newBin.getRemainingCapacity() - item.getWeight());
-                            }
-                        }
-                        
                     }
+                    
+                }
 
-                    double newObjectiveValue = Heuristics.objectiveFunction(X_it_plus_one);
-                    if (newObjectiveValue > f_X_it) {
-                        X_it_plus_one.setObjectiveFunctionValue(newObjectiveValue);
+                // Calculate objective function value for new solution and replace with current solution if required
+                double newObjectiveValue = Heuristics.objectiveFunction(X_it_plus_one);
 
-                        System.out.println("Bin of: " + X_it_plus_one.getProblemName());
-                        
-                        int i = 1;
-                        for (Bin bin : X_it_plus_one.getBins()) {
-                            System.out.println("Bin ID: " + i++);
-                            for (Item item : bin.getItems()) {
-                                System.out.println("Item ID: " + item.getItemId());
-                                
-                                System.out.println();
-                            }
-                        }
-                        
-                        initial_population.set(initial_population.indexOf(X_it), X_it_plus_one);
-                    }
+                if (newObjectiveValue > f_X_it) {
+                    X_it_plus_one.setObjectiveFunctionValue(newObjectiveValue);
+                    initial_population.set(initial_population.indexOf(X_it), X_it_plus_one);
                 }
             }
 
