@@ -18,7 +18,7 @@ public class FirstFitAlgorithm {
         ArrayList<Item> allItems = problem.getItems();
         ArrayList<Bin> bins = new ArrayList<>();
 
-        int binId = 1;
+        int binId = 0;
 
         for (Item item : allItems) {
             boolean placed = false;
@@ -34,7 +34,8 @@ public class FirstFitAlgorithm {
             }
 
             if (!placed) {
-                Bin newBin = new Bin(binId++, problem.getBinCapacity(), problem.getBinCapacity() - item.getWeight());
+                binId++;
+                Bin newBin = new Bin(binId, problem.getBinCapacity(), problem.getBinCapacity() - item.getWeight());
                 newBin.getItems().add(item);
                 bins.add(newBin);
                 item.setBinId(binId);

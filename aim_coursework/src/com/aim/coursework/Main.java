@@ -2,6 +2,8 @@ package com.aim.coursework;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+
+import com.aim.coursework.AFDO.AdaptiveFitnessDependentOptimizer;
 import com.aimframeworkgrp23.*;
 
 public class Main {
@@ -33,20 +35,20 @@ public class Main {
             }
 
             // Creating and saving Simulated Annealing solution
-            for (Solution solution: initial_solutions) {
-                SimulatedAnnealing sa = new SimulatedAnnealing(solution);
-                FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
-                PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated_Annealing");
-                ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing", simulatedAnnealing_solution, chartWidth, chartHeight);
-            }
+            // for (Solution solution: initial_solutions) {
+            //     SimulatedAnnealing sa = new SimulatedAnnealing(solution);
+            //     FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
+            //     PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated_Annealing");
+            //     ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing", simulatedAnnealing_solution, chartWidth, chartHeight);
+            // }
 
             // Creating and saving Genetic Algorithm solution
-            for (BinPackingProblem problem: problems) {
-                GeneticAlgorithm ga = new GeneticAlgorithm(problem);
-                FinalSolution genetic_algorithm_solution = ga.applyGeneticAlgorithm();
-                PrintSolutionToFile.saveResult(genetic_algorithm_solution, output_directory, "Genetic_Algorithm");
-                ChartUtilities.buildAndDisplayXYCharts("Genetic_Algorithm", genetic_algorithm_solution, chartWidth, chartHeight);
-            }
+            // for (BinPackingProblem problem: problems) {
+            //     GeneticAlgorithm ga = new GeneticAlgorithm(problem);
+            //     FinalSolution genetic_algorithm_solution = ga.applyGeneticAlgorithm();
+            //     PrintSolutionToFile.saveResult(genetic_algorithm_solution, output_directory, "Genetic_Algorithm");
+            //     ChartUtilities.buildAndDisplayXYCharts("Genetic_Algorithm", genetic_algorithm_solution, chartWidth, chartHeight);
+            // }
 
             // Creating and saving Adaptive Fitness Dependent Optimizer solution
             for (BinPackingProblem problem: problems) {

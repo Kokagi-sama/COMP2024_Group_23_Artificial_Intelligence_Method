@@ -69,7 +69,7 @@ public class GeneticAlgorithm {
         // Now place all items into bins, trying to respect their bin IDs if possible
         ArrayList<Bin> bins = new ArrayList<>();
 
-        int binId = 1;
+        int binId = 0;
 
         for (Item item : allItems) {
             boolean placed = false;
@@ -88,7 +88,8 @@ public class GeneticAlgorithm {
             }
             if (!placed) {
                 // If still not placed, create a new bin
-                Bin newBin = new Bin(binId++, parent1.getBins().getFirst().getCapacity(), parent1.getBins().getFirst().getCapacity() - item.getWeight());
+                binId++;
+                Bin newBin = new Bin(binId, parent1.getBins().getFirst().getCapacity(), parent1.getBins().getFirst().getCapacity() - item.getWeight());
                 newBin.getItems().add(item);
                 bins.add(newBin);
             }
@@ -217,7 +218,7 @@ public class GeneticAlgorithm {
                 }
             }
 
-            // Optionally store generation results
+            // Store generation results
             Generation generation = new Generation();
             generation.setGenerationId(generation_id);
             generation.setCandidateSolutions(new ArrayList<>(initialPopulation));

@@ -9,7 +9,7 @@ public class Heuristics {
         double fitness = 0;
     
         for (Bin bin : solution.getBins()) {
-            double load = (double) (bin.getCapacity() - bin.getRemainingCapacity());
+            double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
             double load_square = Math.pow(load, z);
             double filledRatio = load_square / (double) bin.getCapacity();
             fitness += filledRatio;
@@ -28,7 +28,7 @@ public class Heuristics {
         double fitness = 0;
 
         for (Bin bin : bins) {
-            double load = (double) (bin.getCapacity() - bin.getRemainingCapacity());
+            double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
             double load_square = Math.pow(load, z);
             double filledRatio = load_square / (double) bin.getCapacity();
             fitness += filledRatio;
