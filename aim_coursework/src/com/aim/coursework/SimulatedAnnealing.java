@@ -16,6 +16,7 @@ public class SimulatedAnnealing {
     // Defining common Random object
     Random rand = new Random();
 
+    // Defining Initial solution object
     private final Solution initialSolution;
 
     public SimulatedAnnealing(Solution initialSolution) {
@@ -26,7 +27,7 @@ public class SimulatedAnnealing {
         double temperature = START_TEMPERATURE;
         Solution currentBestSolution = Heuristics.copySolution(initialSolution);
         Solution overallBestSolution = Heuristics.copySolution(initialSolution);
-        int generation_id = 0;
+        int generation_id = 1;
 
         // To store multiple generations' results
         ArrayList<Generation> generation_results = new ArrayList<Generation>();
@@ -41,7 +42,7 @@ public class SimulatedAnnealing {
         boolean end = false;
 
         while (temperature > 1) {
-            for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++) {
+            for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++, generation_id++) {
                 ArrayList<Solution> neighbourhood_solutions = Heuristics.generateNeighbour(currentBestSolution, POPULATION_SIZE);
                 ArrayList<Solution> swapped_neighbourhood_solutions = swapAndEvaluate(neighbourhood_solutions);
 
@@ -62,8 +63,6 @@ public class SimulatedAnnealing {
                 generation.setCandidateSolutions(swapped_neighbourhood_solutions);
                 generation.setBestSolution(currentBestSolution);
                 generation_results.add(generation);
-
-                generation_id++;
 
                 b_star = generation.getBestSolution().getBinCount();
 

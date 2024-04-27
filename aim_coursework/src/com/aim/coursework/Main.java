@@ -3,7 +3,6 @@ package com.aim.coursework;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-import com.aim.coursework.AFDO.AdaptiveFitnessDependentOptimizer;
 import com.aimframeworkgrp23.*;
 
 public class Main {
@@ -38,8 +37,8 @@ public class Main {
             for (Solution solution: initial_solutions) {
                 SimulatedAnnealing sa = new SimulatedAnnealing(solution);
                 FinalSolution simulatedAnnealing_solution = sa.applySimulatedAnnealing();
-                PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated_Annealing");
-                ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing", simulatedAnnealing_solution, chartWidth, chartHeight);
+                PrintSolutionToFile.saveResult(simulatedAnnealing_solution, output_directory, "Simmulated_Annealing_Algorithm");
+                ChartUtilities.buildAndDisplayXYCharts("Simmulated_Annealing_Algorithm", simulatedAnnealing_solution, chartWidth, chartHeight);
             }
 
             // Creating and saving Genetic Algorithm solution
@@ -58,10 +57,13 @@ public class Main {
                 ChartUtilities.buildAndDisplayXYCharts("AFDO_Algorithm", ADFO_algorithm_solution, chartWidth, chartHeight);
             }
 
-            // Creating and saving SAWMBS
-            // for (Solution solution: initial_solutions) {
-            //     PerturbationSAWMBS p_sawmbs = new PerturbationSAWMBS(solution);
-            // }
+            // Creating and saving Perturbation MBS solution
+            for (Solution solution: initial_solutions) {
+                PerturbationMBS pmbs = new PerturbationMBS(solution);
+                FinalSolution perturbationmbs_solution = pmbs.applyPerturbationMBS();
+                PrintSolutionToFile.saveResult(perturbationmbs_solution, output_directory, "PerturbationMBS_Algorithm");
+                ChartUtilities.buildAndDisplayXYCharts("PerturbationMBS_Algorithm", perturbationmbs_solution, chartWidth, chartHeight);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

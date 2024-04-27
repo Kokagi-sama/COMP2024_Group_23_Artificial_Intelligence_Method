@@ -9,9 +9,9 @@ import java.util.Random;
 public class GeneticAlgorithm {
 
     // Parameters
-    static final int POPULATION_SIZE = 100;
-    static final int MAX_GENERATIONS = 1000;
-    static final int TOURNAMENT_SIZE = 10;
+    private static final int POPULATION_SIZE = 100;
+    private static final int MAX_GENERATIONS = 1000;
+    private static final int TOURNAMENT_SIZE = 10;
 
     Random rand = new Random();
 

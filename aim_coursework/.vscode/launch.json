@@ -5,6 +5,13 @@
       "name": "Main",
       "request": "launch",
       "mainClass": "com.aim.coursework.Main",
+      "projectName": "aim_coursework_1866dbc4"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "com.aim.coursework.Main",
       "projectName": "aim_coursework_534704da"
     },
     {
