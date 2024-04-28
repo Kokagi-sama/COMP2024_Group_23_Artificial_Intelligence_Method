@@ -20,11 +20,17 @@ public class Bin {
         return this.id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public ArrayList<Item> getItems() {
         return this.items;
-    }public Solution copySolution(Solution solution) {
-        return solution;
-      }
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
 
     public int getCapacity() {
         return this.capacity;

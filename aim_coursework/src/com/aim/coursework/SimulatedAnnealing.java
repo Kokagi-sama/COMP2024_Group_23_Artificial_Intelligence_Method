@@ -23,70 +23,6 @@ public class SimulatedAnnealing {
         this.initialSolution = initialSolution;
     }
 
-    public FinalSolution applySimulatedAnnealing() {
-        double temperature = START_TEMPERATURE;
-        Solution currentBestSolution = Heuristics.copySolution(initialSolution);
-        Solution overallBestSolution = Heuristics.copySolution(initialSolution);
-        int generation_id = 1;
-
-        // To store multiple generations' results
-        ArrayList<Generation> generation_results = new ArrayList<Generation>();
-
-        // To store final solution
-        FinalSolution final_solution = new FinalSolution();
-
-        // Global best no. of bins
-        int b_star = -1;
-
-        // Flag to end Simulated Annealing if lower bound has been achieved
-        boolean end = false;
-
-        while (temperature > 1) {
-            for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++, generation_id++) {
-                ArrayList<Solution> neighbourhood_solutions = Heuristics.generateNeighbour(currentBestSolution, POPULATION_SIZE);
-                ArrayList<Solution> swapped_neighbourhood_solutions = swapAndEvaluate(neighbourhood_solutions);
-
-                for (Solution neighbourhood_solution: swapped_neighbourhood_solutions) {
-                    if (neighbourhood_solution.getObjectiveFunctionValue() > currentBestSolution.getObjectiveFunctionValue() ||
-                        acceptWorseSolution(currentBestSolution.getProblemName(), currentBestSolution.getObjectiveFunctionValue(), neighbourhood_solution.getObjectiveFunctionValue(), temperature)) {
-                            currentBestSolution = Heuristics.copySolution(neighbourhood_solution);
-                    }
-
-                    if (currentBestSolution.getObjectiveFunctionValue() > overallBestSolution.getObjectiveFunctionValue()) {
-                        overallBestSolution = Heuristics.copySolution(currentBestSolution);
-                    }
-
-                }
-
-                Generation generation = new Generation();
-                generation.setGenerationId(generation_id);
-                generation.setCandidateSolutions(swapped_neighbourhood_solutions);
-                generation.setBestSolution(currentBestSolution);
-                generation_results.add(generation);
-
-                b_star = generation.getBestSolution().getBinCount();
-
-                // Terminate if lower bound has been achieved
-                if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
-                    end = true;
-                    break;
-                }
-
-            }
-            
-            temperature *= COOLING_RATE;
-            
-            // Terminate if lower bound has been achieved
-            if (end == true) {
-                break;
-            }
-        }
-
-        final_solution.setBestSolution(overallBestSolution);
-        final_solution.setGenerations(generation_results);
-        return final_solution;
-    }
-
     private boolean acceptWorseSolution(String problemName, double currentFitness, double newFitness, double temperature) {
         if (newFitness > currentFitness) {
             return true;
@@ -165,5 +101,69 @@ public class SimulatedAnnealing {
         int tJ = itemJ != null ? itemJ.getWeight() : 0;
 
         return Math.pow((lI - tI + tJ), 2) + Math.pow((lJ + tI - tJ), 2) - Math.pow(lI, 2) - Math.pow(lJ, 2);
+    }
+
+    public FinalSolution applySimulatedAnnealing() {
+        double temperature = START_TEMPERATURE;
+        Solution currentBestSolution = Heuristics.copySolution(initialSolution);
+        Solution overallBestSolution = Heuristics.copySolution(initialSolution);
+        int generation_id = 1;
+
+        // To store multiple generations' results
+        ArrayList<Generation> generation_results = new ArrayList<Generation>();
+
+        // To store final solution
+        FinalSolution final_solution = new FinalSolution();
+
+        // Global best no. of bins
+        int b_star = -1;
+
+        // Flag to end Simulated Annealing if lower bound has been achieved
+        boolean end = false;
+
+        while (temperature > 1) {
+            for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++, generation_id++) {
+                ArrayList<Solution> neighbourhood_solutions = Heuristics.generateNeighbour(currentBestSolution, POPULATION_SIZE);
+                ArrayList<Solution> swapped_neighbourhood_solutions = swapAndEvaluate(neighbourhood_solutions);
+
+                for (Solution neighbourhood_solution: swapped_neighbourhood_solutions) {
+                    if (neighbourhood_solution.getObjectiveFunctionValue() > currentBestSolution.getObjectiveFunctionValue() ||
+                        acceptWorseSolution(currentBestSolution.getProblemName(), currentBestSolution.getObjectiveFunctionValue(), neighbourhood_solution.getObjectiveFunctionValue(), temperature)) {
+                            currentBestSolution = Heuristics.copySolution(neighbourhood_solution);
+                    }
+
+                    if (currentBestSolution.getObjectiveFunctionValue() > overallBestSolution.getObjectiveFunctionValue()) {
+                        overallBestSolution = Heuristics.copySolution(currentBestSolution);
+                    }
+
+                }
+
+                Generation generation = new Generation();
+                generation.setGenerationId(generation_id);
+                generation.setCandidateSolutions(swapped_neighbourhood_solutions);
+                generation.setBestSolution(currentBestSolution);
+                generation_results.add(generation);
+
+                b_star = generation.getBestSolution().getBinCount();
+
+                // Terminate if lower bound has been achieved
+                if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
+                    end = true;
+                    break;
+                }
+
+            }
+            
+            temperature *= COOLING_RATE;
+            
+            // Terminate if lower bound has been achieved
+            if (end == true) {
+                break;
+            }
+        }
+
+        final_solution.setBestSolution(overallBestSolution);
+        final_solution.setGenerations(generation_results);
+        return final_solution;
     }
 }

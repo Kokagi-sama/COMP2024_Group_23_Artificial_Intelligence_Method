@@ -97,6 +97,28 @@ public class Heuristics {
         return copyItems;
     }
 
+    public static Bin copyBin(Bin bin) {
+        Bin copyBin = new Bin(bin.getId(), bin.getCapacity(), bin.getRemainingCapacity());
+
+        ArrayList<Item> copyItems = new ArrayList<Item>();
+
+        copyItems = copyItems(bin.getItems());
+
+        copyBin.setItems(copyItems);
+
+        return copyBin;
+    }
+
+    public static ArrayList<Bin> copyBins(ArrayList<Bin> bins) {
+        ArrayList<Bin> copyBins = new ArrayList<Bin>();
+
+        for (Bin bin: bins) {
+            copyBins.add(copyBin(bin));
+        }
+
+        return copyBins;
+    }
+
     public static int calculateLowerBound(ArrayList<Bin> bins, int bin_capacity) {
         int lower_bound = -1;
         double total_bin_weight = 0.0;

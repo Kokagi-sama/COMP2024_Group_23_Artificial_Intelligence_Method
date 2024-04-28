@@ -64,6 +64,7 @@ public class Main {
                 PrintSolutionToFile.saveResult(perturbationmbs_solution, output_directory, "PerturbationMBS_Algorithm");
                 ChartUtilities.buildAndDisplayXYCharts("PerturbationMBS_Algorithm", perturbationmbs_solution, chartWidth, chartHeight);
             }
+        
 
         } catch (Exception e) {
             e.printStackTrace();
