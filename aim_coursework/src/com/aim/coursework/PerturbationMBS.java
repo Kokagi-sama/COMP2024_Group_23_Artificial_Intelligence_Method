@@ -57,7 +57,9 @@ public class PerturbationMBS {
         boolean improvement = true;
 
         ArrayList<Bin> bins = new ArrayList<>(current_solution.getBins());
-        Solution bestSolution = null;
+        Solution bestSolution = new Solution();
+        bestSolution.setObjectiveFunctionValue(0);
+        Solution bestGenerationSolution = null;
 
         while (improvement && generation_id <= maxIterations) {
 
@@ -71,7 +73,7 @@ public class PerturbationMBS {
                 break;
             }
 
-            bestSolution = new Solution();
+            bestGenerationSolution = new Solution();
 
             improvement = false;
             generation_id++;
@@ -200,15 +202,22 @@ public class PerturbationMBS {
                 }
             }
             
-            bestSolution.setProblemName(current_solution.getProblemName());
-            bestSolution.setBinCount(bins.size());
-            bestSolution.setBins(Heuristics.copyBins(bins));
-            bestSolution.setObjectiveFunctionValue(Heuristics.objectiveFunction(bins));
+            bestGenerationSolution.setProblemName(current_solution.getProblemName());
+            bestGenerationSolution.setBinCount(bins.size());
+            bestGenerationSolution.setBins(Heuristics.copyBins(bins));
+            bestGenerationSolution.setObjectiveFunctionValue(Heuristics.objectiveFunction(bins));
 
             Generation generation = new Generation();
             generation.setGenerationId(generation_id);
-            generation.setBestSolution(bestSolution);
+            generation.setBestSolution(bestGenerationSolution);
             generation_results.add(generation);
+        }
+
+        for(Generation generation : generation_results) {
+            Solution currentSolution = generation.getBestSolution();
+            if (currentSolution != null && currentSolution.getObjectiveFunctionValue() > bestSolution.getObjectiveFunctionValue()) {
+                bestSolution = currentSolution;
+            }
         }
         
         return bestSolution;

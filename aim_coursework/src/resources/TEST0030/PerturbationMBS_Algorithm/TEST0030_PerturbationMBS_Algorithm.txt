@@ -1,9 +1,9 @@
 ==== Overall Best Solution for Problem: TEST0030 ====
-Obejctive function value: 0.9308333282142855
+Obejctive function value: 0.9376639096428573
 Bins used: 28
 
 ==== Best Solution for Generation: 2 ====
-Obejctive function value: 0.9031668896428572
+Obejctive function value: 0.9366175151851853
 Bins used: 28
 ==== Best Solution for Generation: 3 ====
 Obejctive function value: 0.9341595817857146
@@ -15,7 +15,7 @@ Bins used: 28
 Obejctive function value: 0.9376639096428573
 Bins used: 28
 ==== Best Solution for Generation: 6 ====
-Obejctive function value: 0.8960490246428571
+Obejctive function value: 0.9292360255555555
 Bins used: 28
 ==== Best Solution for Generation: 7 ====
 Obejctive function value: 0.9314380789285716
@@ -168,7 +168,7 @@ Bins used: 28
 Obejctive function value: 0.9307889232142859
 Bins used: 28
 ==== Best Solution for Generation: 57 ====
-Obejctive function value: 0.8949850067857145
+Obejctive function value: 0.9281325996296298
 Bins used: 28
 ==== Best Solution for Generation: 58 ====
 Obejctive function value: 0.9307971360714287
@@ -186,7 +186,7 @@ Bins used: 28
 Obejctive function value: 0.9307609682142858
 Bins used: 28
 ==== Best Solution for Generation: 63 ====
-Obejctive function value: 0.8955060867857144
+Obejctive function value: 0.928672978888889
 Bins used: 28
 ==== Best Solution for Generation: 64 ====
 Obejctive function value: 0.9308989775000001
@@ -279,10 +279,10 @@ Bins used: 28
 Obejctive function value: 0.9351833603571432
 Bins used: 28
 ==== Best Solution for Generation: 94 ====
-Obejctive function value: 0.8952034232142856
+Obejctive function value: 0.9283591055555555
 Bins used: 28
 ==== Best Solution for Generation: 95 ====
-Obejctive function value: 0.8953571589285713
+Obejctive function value: 0.928518535185185
 Bins used: 28
 ==== Best Solution for Generation: 96 ====
 Obejctive function value: 0.9310171846428569
@@ -321,7 +321,7 @@ Bins used: 28
 Obejctive function value: 0.930845640357143
 Bins used: 28
 ==== Best Solution for Generation: 108 ====
-Obejctive function value: 0.8962756567857143
+Obejctive function value: 0.9294710514814816
 Bins used: 28
 ==== Best Solution for Generation: 109 ====
 Obejctive function value: 0.9308274403571429
@@ -348,7 +348,7 @@ Bins used: 28
 Obejctive function value: 0.9311487260714285
 Bins used: 28
 ==== Best Solution for Generation: 117 ====
-Obejctive function value: 0.8952059167857142
+Obejctive function value: 0.9283616914814814
 Bins used: 28
 ==== Best Solution for Generation: 118 ====
 Obejctive function value: 0.9307233117857143
@@ -375,7 +375,7 @@ Bins used: 28
 Obejctive function value: 0.9319957167857142
 Bins used: 28
 ==== Best Solution for Generation: 126 ====
-Obejctive function value: 0.8951732310714285
+Obejctive function value: 0.9283277951851852
 Bins used: 28
 ==== Best Solution for Generation: 127 ====
 Obejctive function value: 0.9309865639285715
@@ -387,7 +387,7 @@ Bins used: 28
 Obejctive function value: 0.9308839782142858
 Bins used: 28
 ==== Best Solution for Generation: 130 ====
-Obejctive function value: 0.8960390296428572
+Obejctive function value: 0.9292256603703705
 Bins used: 28
 ==== Best Solution for Generation: 131 ====
 Obejctive function value: 0.9309322639285714
@@ -447,7 +447,7 @@ Bins used: 28
 Obejctive function value: 0.930577464642857
 Bins used: 28
 ==== Best Solution for Generation: 150 ====
-Obejctive function value: 0.8948852224999998
+Obejctive function value: 0.9280291196296294
 Bins used: 28
 ==== Best Solution for Generation: 151 ====
 Obejctive function value: 0.9308907060714284

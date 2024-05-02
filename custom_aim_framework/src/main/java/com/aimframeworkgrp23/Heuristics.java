@@ -26,15 +26,25 @@ public class Heuristics {
     // Objective function for Arraylist of Bins passed directly
     public static double objectiveFunction (ArrayList<Bin> bins, int z) {
         double fitness = 0;
+        int binCnt = 0;
 
         for (Bin bin : bins) {
             double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
+
+            if (load != 0) {
+                binCnt++;
+            }
+
             double filledRatio = load / (double) bin.getCapacity();
             double load_square = Math.pow(filledRatio, z);
             fitness += load_square;
         }
 
-        return fitness / bins.size();
+        if (binCnt == 0) {
+            return 0;
+        }
+
+        return fitness / binCnt;
     }
 
     // Overloaded objective function with default z value = 2 for ArrayList of Bins passed directly
