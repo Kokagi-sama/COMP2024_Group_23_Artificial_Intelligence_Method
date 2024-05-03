@@ -4,21 +4,29 @@ import java.util.ArrayList;
 
 public class Heuristics {
 
-    // Objective function
+    // Objective Function and overloads
+
+    // Objective function for solution passed directly
     public static double objectiveFunction(Solution solution, int z) {
         double fitness = 0;
+        int binCnt = 0;
     
         for (Bin bin : solution.getBins()) {
             double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
+
+            if (load != 0) {
+                binCnt++;
+            }
+
             double filledRatio = load / (double) bin.getCapacity();
             double load_square = Math.pow(filledRatio, z);
             fitness += load_square;
         }
     
-        return fitness / solution.getBinCount();
+        return fitness / binCnt;
     }
 
-    // Overloaded objective function with default z value = 2
+    // Overloaded objective function with default z value = 2 for solution 
     public static double objectiveFunction(Solution solution) {
         return objectiveFunction(solution, 2);
     }
@@ -50,18 +58,6 @@ public class Heuristics {
     // Overloaded objective function with default z value = 2 for ArrayList of Bins passed directly
     public static double objectiveFunction(ArrayList<Bin> bins) {
         return objectiveFunction(bins, 2);
-    }
-
-    // Generate a neighbor for each solution in the map
-    public static ArrayList<Solution> generateNeighbour(Solution currentSolution, int population_size) {
-        
-        ArrayList<Solution> neighbourhood = new ArrayList<Solution>();
-
-        for (int i = 0; i < population_size; i++) {
-            neighbourhood.add(copySolution(currentSolution));
-        }
-    
-        return neighbourhood;
     }    
     
     // Method to deep copy a Solution
@@ -89,24 +85,18 @@ public class Heuristics {
         return copySolution;
     }
 
-    public static ArrayList<Item> copyItems(ArrayList<Item> items) {
-        ArrayList<Item> copyItems = new ArrayList<Item>();
-    
-        for (Item original : items) {
-            // Create a new Item object with the same weight
-            Item newItem = new Item(original.getWeight());
-            
-            // Set the same binId and itemId as the original item
-            newItem.setBinId(original.getBinId());
-            newItem.setItemId(original.getItemId());
-    
-            // Add the newly created item to the copied list
-            copyItems.add(newItem);
+    // Method to deep copy Bins
+    public static ArrayList<Bin> copyBins(ArrayList<Bin> bins) {
+        ArrayList<Bin> copyBins = new ArrayList<Bin>();
+
+        for (Bin bin: bins) {
+            copyBins.add(copyBin(bin));
         }
-    
-        return copyItems;
+
+        return copyBins;
     }
 
+    // Method to deep copy a Bin
     public static Bin copyBin(Bin bin) {
         Bin copyBin = new Bin(bin.getId(), bin.getCapacity(), bin.getRemainingCapacity());
 
@@ -119,16 +109,31 @@ public class Heuristics {
         return copyBin;
     }
 
-    public static ArrayList<Bin> copyBins(ArrayList<Bin> bins) {
-        ArrayList<Bin> copyBins = new ArrayList<Bin>();
-
-        for (Bin bin: bins) {
-            copyBins.add(copyBin(bin));
+    // Method to deep copy Items
+    public static ArrayList<Item> copyItems(ArrayList<Item> items) {
+        ArrayList<Item> copyItems = new ArrayList<Item>();
+    
+        for (Item item : items) {
+            // Deep copy the original item and add it to the newly created item list
+            copyItems.add(copyItem(item));
         }
-
-        return copyBins;
+    
+        return copyItems;
     }
 
+    // Method to deep copy an Item
+    public static Item copyItem(Item item) {
+        // Create a new Item object with the original item's weight
+        Item newItem = new Item(item.getWeight());
+            
+        // Set the same binId and itemId as the original item
+        newItem.setBinId(item.getBinId());
+        newItem.setItemId(item.getItemId());
+
+        return newItem;
+    }
+
+    // Method to calculate mathematical lower bound for each problem's bin count to be used as termination criterion.
     public static int calculateLowerBound(ArrayList<Bin> bins, int bin_capacity) {
         int lower_bound = -1;
         double total_bin_weight = 0.0;

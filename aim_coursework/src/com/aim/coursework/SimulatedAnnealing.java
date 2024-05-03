@@ -23,18 +23,19 @@ public class SimulatedAnnealing {
         this.initialSolution = initialSolution;
     }
 
-    private boolean acceptWorseSolution(String problemName, double currentFitness, double newFitness, double temperature) {
-        if (newFitness > currentFitness) {
-            return true;
+    // Generate a neighbor for each solution in the map
+    public static ArrayList<Solution> generateNeighbour(Solution currentSolution, int population_size) {
+        
+        ArrayList<Solution> neighbourhood = new ArrayList<Solution>();
+
+        for (int i = 0; i < population_size; i++) {
+            neighbourhood.add(Heuristics.copySolution(currentSolution));
         }
-
-        double acceptance = (newFitness - currentFitness) / BOLTZMANN_CONSTANT * temperature;
-        double acceptanceProbability = Math.exp(acceptance);
-
-        // Getting a random probabillity of accepting worse solutions
-        return acceptanceProbability > rand.nextDouble(1.0);
+    
+        return neighbourhood;
     }
 
+    // Swap and evaluate items in bins from neighbourhood
     private ArrayList<Solution> swapAndEvaluate(ArrayList<Solution> neighbourhood) {
 
         for (Solution neighbour : neighbourhood) {
@@ -103,6 +104,19 @@ public class SimulatedAnnealing {
         return Math.pow((lI - tI + tJ), 2) + Math.pow((lJ + tI - tJ), 2) - Math.pow(lI, 2) - Math.pow(lJ, 2);
     }
 
+    // Solution acceptance with random probability of accepting worse solution to escape local optima
+    private boolean acceptWorseSolution(String problemName, double currentFitness, double newFitness, double temperature) {
+        if (newFitness > currentFitness) {
+            return true;
+        }
+
+        double acceptance = (newFitness - currentFitness) / BOLTZMANN_CONSTANT * temperature;
+        double acceptanceProbability = Math.exp(acceptance);
+
+        // Getting a random probabillity of accepting worse solutions
+        return acceptanceProbability > rand.nextDouble(1.0);
+    }
+
     public FinalSolution applySimulatedAnnealing() {
         double temperature = START_TEMPERATURE;
         Solution currentBestSolution = Heuristics.copySolution(initialSolution);
@@ -123,7 +137,7 @@ public class SimulatedAnnealing {
 
         while (temperature > 1) {
             for (int i = 0; i < ITERATIONS_PER_TEMPERATURE; i++, generation_id++) {
-                ArrayList<Solution> neighbourhood_solutions = Heuristics.generateNeighbour(currentBestSolution, POPULATION_SIZE);
+                ArrayList<Solution> neighbourhood_solutions = generateNeighbour(currentBestSolution, POPULATION_SIZE);
                 ArrayList<Solution> swapped_neighbourhood_solutions = swapAndEvaluate(neighbourhood_solutions);
 
                 for (Solution neighbourhood_solution: swapped_neighbourhood_solutions) {

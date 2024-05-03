@@ -31,7 +31,7 @@ public class HybridAntColonyOptimization {
     private static final int max_iterations = 30;
 
     // Number of ants
-    private int number_of_ants = 10;
+    private int number_of_ants;
 
     // Pheromone importance coefficient
     private static final int alpha = 1;
@@ -40,21 +40,19 @@ public class HybridAntColonyOptimization {
     private static final double beta = 2;
 
     // Max pheromone level
-    private static final double tau_max = 1;
-
-    // Max pheromone level
-    private static final double tau_mim = 0.01;
+    private static final double tau_max = 4;
 
     // Pheromone evaporation coefficient
-    private static final double rho = 0.1;
+    private static final double rho = 0.75;
 
     // Number of bins to free in local search
-    private static final int free_n_bins = 2;
+    private static final int free_n_bins = 4;
 
     // Public Constructor
     public HybridAntColonyOptimization(BinPackingProblem problem) {
         this.problem = problem;
         this.problem_items = this.problem.getItems();
+        this.number_of_ants = this.problem_items.size();
         this.pheromone_matrix =  getPheromoneMatrix(this.problem_items.size());
     }
 
@@ -113,6 +111,7 @@ public class HybridAntColonyOptimization {
 
     public Item choose_item(ArrayList<Item> remaining_items, ArrayList<Item> current_bin_items, double[][] pheromone_matrix, int bin_capacity) {
 
+        ArrayList<Item> remaining_items_copy = Heuristics.copyItems(remaining_items);
         ArrayList<Item> fitting_items = new ArrayList<Item>();
         ArrayList<Double> weighted_probabilities = new ArrayList<Double>();
 
@@ -130,7 +129,7 @@ public class HybridAntColonyOptimization {
         }
         
         int itemIndex = 0;
-        for (Item item : remaining_items) {
+        for (Item item : remaining_items_copy) {
             if (current_bin_weight + item.getWeight() <= bin_capacity) {
                 fitting_items.add(item);
                 item.setItemIndex(itemIndex);
@@ -200,14 +199,17 @@ public class HybridAntColonyOptimization {
 
     public FinalSolution applyHybridAntColonyOptimization() {
         // To store multiple generations' results
-        ArrayList<Generation> generationResults = new ArrayList<Generation>();
+        ArrayList<Generation> generation_results = new ArrayList<Generation>();
 
         // To store final solution
-        FinalSolution finalSolution = new FinalSolution();
+        FinalSolution final_solution = new FinalSolution();
         
         // To store global best solution
-        Solution globalBestSolution = new Solution();
-        globalBestSolution.setObjectiveFunctionValue(0);
+        Solution global_best_solution = new Solution();
+        global_best_solution.setObjectiveFunctionValue(0);
+
+        // Flag to stop the program if lower bound has been achieved
+        boolean break_flag = false;
 
         for (int generation_id = 1; generation_id <= max_iterations; generation_id++) {
             
@@ -232,13 +234,13 @@ public class HybridAntColonyOptimization {
 
         }
 
-        boolean break_flag = false;
+        
 
 
 
 
 
 
-        return finalSolution;
+        return final_solution;
     }
 }

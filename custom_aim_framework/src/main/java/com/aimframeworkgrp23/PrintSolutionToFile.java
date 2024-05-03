@@ -31,15 +31,13 @@ public class PrintSolutionToFile {
         }
     }
 
-    public static void saveResult(FinalSolution final_solution, String output_directory, String algorithm_name) {
+    public static void saveResult(int iteration, FinalSolution final_solution, String output_directory, String algorithm_name) {
 
         ArrayList<Generation> generations = final_solution.getGenerations();
         Solution overall_best_solution = final_solution.getBestSolution();
         String problem_name = generations.getFirst().getBestSolution().getProblemName();
-        String save_directory = output_directory + "/" + problem_name + "/" + algorithm_name;
-        String save_file_path = save_directory + "/" + problem_name + "_" + algorithm_name + ".txt";
-
-        
+        String save_directory = output_directory + "/" + problem_name + "/" + algorithm_name + "/Iteration_" + iteration + "/";
+        String save_file_path = save_directory + "/" + problem_name + "_" + algorithm_name + "_" + "Iteration_" + iteration + ".txt";
 
         try {
 
