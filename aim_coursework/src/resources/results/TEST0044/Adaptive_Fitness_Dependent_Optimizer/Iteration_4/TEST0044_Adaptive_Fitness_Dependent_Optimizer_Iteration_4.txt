@@ -1,0 +1,301 @@
+==== Overall Best Solution for Problem: TEST0044 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+
+==== Best Solution for Generation: 1 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 2 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 3 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 4 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 5 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 6 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 7 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 8 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 9 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 10 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 11 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 12 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 13 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 14 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 15 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 16 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 17 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 18 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 19 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 20 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 21 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 22 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 23 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 24 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 25 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 26 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 27 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 28 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 29 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 30 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 31 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 32 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 33 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 34 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 35 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 36 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 37 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 38 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 39 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 40 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 41 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 42 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 43 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 44 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 45 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 46 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 47 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 48 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 49 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 50 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 51 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 52 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 53 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 54 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 55 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 56 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 57 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 58 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 59 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 60 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 61 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 62 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 63 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 64 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 65 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 66 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 67 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 68 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 69 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 70 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 71 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 72 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 73 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 74 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 75 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 76 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 77 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 78 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 79 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 80 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 81 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 82 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 83 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 84 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 85 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 86 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 87 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 88 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 89 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 90 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 91 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 92 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 93 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 94 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 95 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 96 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 97 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 98 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15
+==== Best Solution for Generation: 99 ====
+Obejctive function value: 0.9256043753333333
+Bins used: 15

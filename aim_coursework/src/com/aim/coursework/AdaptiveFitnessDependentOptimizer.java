@@ -11,11 +11,13 @@ public class AdaptiveFitnessDependentOptimizer {
     private static final int POPULATION_SIZE = 10;
     private static final int T_MAX = 100;
 
+    // Random Object
     Random rand = new Random();
 
     private ArrayList<Solution> initial_population;
     private BinPackingProblem problem;
 
+    // Public Constructor
     public AdaptiveFitnessDependentOptimizer(BinPackingProblem problem) {
         this.problem = problem;
 
@@ -24,6 +26,7 @@ public class AdaptiveFitnessDependentOptimizer {
         this.initial_population = initialiser.getInitialPopulation(POPULATION_SIZE);
     }
 
+    // Main Adaptive Fitness Dependent Optimizer Function
     public FinalSolution applyAdaptiveFitnessDependentOptimizerAlgorithm() {
         // To store multiple generations' results
         ArrayList<Generation> generation_results = new ArrayList<>();
@@ -155,7 +158,7 @@ public class AdaptiveFitnessDependentOptimizer {
 
         }
 
-        // Set the best solution from the last generation
+        // Store final solution
         final_solution.setBestSolution(generation_results.get(generation_results.size() - 1).getBestSolution());
         final_solution.setGenerations(generation_results);
 

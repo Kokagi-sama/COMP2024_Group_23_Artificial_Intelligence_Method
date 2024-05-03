@@ -129,8 +129,8 @@ public class ChartUtilities {
             CategoryPlot plot = (CategoryPlot) boxplot.getPlot();
             BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
 
-            renderer.setFillBox(true); // Controls whether the box is filled or just an outline.
-            renderer.setMeanVisible(true); // Hide the mean marker if desired.
+            renderer.setFillBox(false); // Controls whether the box is filled or just an outline.
+            renderer.setMeanVisible(true);
             renderer.setUseOutlinePaintForWhiskers(true);
             renderer.setMaximumBarWidth(0.15); // Set the maximum bar width to control box width.
 

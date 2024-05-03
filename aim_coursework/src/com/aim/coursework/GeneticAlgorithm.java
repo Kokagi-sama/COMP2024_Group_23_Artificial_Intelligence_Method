@@ -13,11 +13,13 @@ public class GeneticAlgorithm {
     private static final int MAX_GENERATIONS = 1000;
     private static final int TOURNAMENT_SIZE = 10;
 
+    // Random Object
     Random rand = new Random();
 
     private ArrayList<Solution> initialPopulation;
     private BinPackingProblem problem;
 
+    // Public Constructor
     public GeneticAlgorithm(BinPackingProblem problem) {
         this.problem = problem;
 
@@ -114,6 +116,7 @@ public class GeneticAlgorithm {
         return false;
     }
     
+    // Mutate Solution
     private Solution mutate(Solution offspring) {
 
         int binCount = offspring.getBinCount();
@@ -181,7 +184,7 @@ public class GeneticAlgorithm {
         return Math.pow((lI - tI + tJ), 2) + Math.pow((lJ + tI - tJ), 2) - Math.pow(lI, 2) - Math.pow(lJ, 2);
     }
 
-
+    // Main Genetic Algorithm Function
     public FinalSolution applyGeneticAlgorithm() {
         // To store multiple generations' results
         ArrayList<Generation> generation_results = new ArrayList<>();
@@ -238,7 +241,7 @@ public class GeneticAlgorithm {
             }
         }
 
-        // Set the best solution from the last generation
+        // Store final solution
         final_solution.setBestSolution(generation_results.get(generation_results.size() - 1).getBestSolution());
         final_solution.setGenerations(generation_results);
         return final_solution;

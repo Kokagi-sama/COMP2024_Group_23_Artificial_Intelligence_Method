@@ -20,10 +20,12 @@ public class PerturbationMinimumBinSlack {
     // To store final solution
     FinalSolution final_solution = new FinalSolution();
 
+    // Public Constructor
     public PerturbationMinimumBinSlack(Solution solution) {
         this.initial_solution = solution;
     }
 
+    // First Fit Algorithm for items
     public ArrayList<Bin> firstFit(ArrayList<Item> items, String problem_name, int binCapacity) {
         ArrayList<Bin> bins = new ArrayList<>();
 
@@ -51,7 +53,7 @@ public class PerturbationMinimumBinSlack {
         return bins;
     }
 
-
+    // Perturb solution
     public Solution perturbSolution(Solution current_solution, int maxIterations, int lowerBound) {
         int generation_id = 0;
         boolean improvement = true;
@@ -207,6 +209,7 @@ public class PerturbationMinimumBinSlack {
             bestGenerationSolution.setBins(Heuristics.copyBins(bins));
             bestGenerationSolution.setObjectiveFunctionValue(Heuristics.objectiveFunction(bins));
 
+            // Store generation results
             Generation generation = new Generation();
             generation.setGenerationId(generation_id);
             generation.setBestSolution(bestGenerationSolution);
@@ -223,7 +226,7 @@ public class PerturbationMinimumBinSlack {
         return bestSolution;
     }
 
-    
+    // Main Perturbation Minimum Bin Slack Function
     public FinalSolution applyPerturbationMBS() {
         Solution current_solution = Heuristics.copySolution(initial_solution);
 
@@ -231,6 +234,7 @@ public class PerturbationMinimumBinSlack {
 
         Solution bestSolution = perturbSolution(current_solution, MAX_ITERATIONS, lower_bound);
 
+        // Store final solution
         final_solution.setBestSolution(bestSolution);
         final_solution.setGenerations(generation_results);
         

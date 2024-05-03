@@ -13,12 +13,13 @@ public class SimulatedAnnealing {
     private static final int POPULATION_SIZE = 20;
     private static final double BOLTZMANN_CONSTANT = 0.2;
 
-    // Defining common Random object
+    // Random object
     Random rand = new Random();
 
     // Defining Initial solution object
     private final Solution initialSolution;
 
+    // Public Constructor
     public SimulatedAnnealing(Solution initialSolution) {
         this.initialSolution = initialSolution;
     }
@@ -117,6 +118,7 @@ public class SimulatedAnnealing {
         return acceptanceProbability > rand.nextDouble(1.0);
     }
 
+    // Main Simulated Annealing Function
     public FinalSolution applySimulatedAnnealing() {
         double temperature = START_TEMPERATURE;
         Solution currentBestSolution = Heuristics.copySolution(initialSolution);
@@ -176,6 +178,7 @@ public class SimulatedAnnealing {
             }
         }
 
+        // Store final solution
         final_solution.setBestSolution(overallBestSolution);
         final_solution.setGenerations(generation_results);
         return final_solution;
