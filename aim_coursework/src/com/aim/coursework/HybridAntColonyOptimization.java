@@ -9,241 +9,71 @@ import java.util.Random;
 
 public class HybridAntColonyOptimization {
 
-    private BinPackingProblem problem;
+    // Random Object
+    Random rand = new Random();
     
-    // Parameters
-    // item_sizes = [item for weight, count in data0014 for item in [weight] * count]
-    // bin_capacity = 10000  # Your bin capacity
-    // lower_bound = math.ceil(sum(item_sizes) / bin_capacity)  # Calculate lower bound
-    // number_of_ants = 10  # Number of ants
-    private static final int max_iterations = 1;
-    // Pheromone evaporation coefficient
-    private static final double rho = 0.75;
+    // Problem
+    private BinPackingProblem problem;
+
+    // Problem Items
+    private ArrayList<Item> problem_items;
+
+    // Pheromone matrix
+    private double[][] pheromone_matrix;
+
+    // Heuristic Information
+    private Map<Integer, Integer> heuristic_information = new HashMap<>();
+    
+
+    // HACO Paramenters
+
+    // Maximum number of iterations
+    private static final int max_iterations = 30;
+
+    // Number of ants
+    private int number_of_ants = 10;
+
+    // Pheromone importance coefficient
+    private static final int alpha = 1;
+
     // Heuristic importance coefficient
     private static final double beta = 2;
-    // Pheromone importance coefficient
-    // private static final int alpha = 1;
+
     // Max pheromone level
-    private static final double tau_max = 4;
-    // Min pheromone level
-    // private static final double tau_min = 0.00;
+    private static final double tau_max = 1;
+
+    // Max pheromone level
+    private static final double tau_mim = 0.01;
+
+    // Pheromone evaporation coefficient
+    private static final double rho = 0.1;
+
     // Number of bins to free in local search
-    private static final int free_n_bins = 4;
+    private static final int free_n_bins = 2;
 
-    private static double longScalarCoeff=1;
-
-    int noAnts;
-
-    int binCapacity;
-    Random rand = new Random();
-
-    ArrayList<Item> allItems = new ArrayList<>();
-
-    // Pheromone matrix as a 2D array
-    double[][] pheromone_matrix;
-    Map<Integer, Integer> heuristicInfo = new HashMap<>();
-
-
-    private double[][] getPheromoneMatrix(ArrayList<Item> allItems){
-        int n = allItems.size();
-        double[][] pheromoneMatrix = new double[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                pheromoneMatrix[i][j] = tau_max;
-            }
-        }
-
-        return pheromoneMatrix;
+    // Public Constructor
+    public HybridAntColonyOptimization(BinPackingProblem problem) {
+        this.problem = problem;
+        this.problem_items = this.problem.getItems();
+        this.pheromone_matrix =  getPheromoneMatrix(this.problem_items.size());
     }
 
-    public void evaporatePheromones() {
-        for (int i = 0; i < pheromone_matrix.length; i++) {
-            for (int j = 0; j < pheromone_matrix[i].length; j++) {
-                pheromone_matrix[i][j] *= rho;
-            }
-        }
-    }
-
-    public void updatePheromones(Solution bestAnt) {
-        for (Bin bin : bestAnt.getBins()) {
-            double bestFitness = bestAnt.getObjectiveFunctionValue();
-            List<Item> items = bin.getItems();
-            for (int i = 0; i < items.size() - 1; i++) {
-                for (int j = i + 1; j < items.size(); j++) {
-                    int itemIId = items.get(i).getItemId();
-                    int itemJId = items.get(j).getItemId();
-                    // pheromone_matrix[itemIId][itemJId] += bestFitness;
-                    // pheromone_matrix[itemJId][itemIId] += bestFitness;
-
-                    pheromone_matrix[itemIId - 1][itemJId - 1] += bestFitness;
-                    pheromone_matrix[itemJId - 1][itemIId - 1] += bestFitness;
-                }
-            }
-        }
-    }
-
-    // Heuristic info
-    private void setHeuristicInfo(ArrayList<Item> allItems){
-        for (Item item : allItems) {
-            heuristicInfo.put(item.getItemId(), item.getWeight());
-        }
-    }
-
-
-    public int findLeastFilledBin(Solution solution) {
-        int leastFilledBinIdx = -1;
-        int leastWeightDiff = Integer.MAX_VALUE;
-        List<Bin> bins = solution.getBins();
-
-        for (int binIdx = 0; binIdx < bins.size(); binIdx++) {
-            Bin bin = bins.get(binIdx);
-            int remainingCapacity = bin.getRemainingCapacity();
-
-            if (remainingCapacity < leastWeightDiff) {
-                leastWeightDiff = remainingCapacity;
-                leastFilledBinIdx = binIdx;
-            }
-        }
-        return leastFilledBinIdx;
-    }
-
-    public ModifiedSolution modifySolution(Solution solution, int freeNBins) {
-        ModifiedSolution finalSolution = new ModifiedSolution();
-        // System.out.println("AMBATUKAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-
-
-        ArrayList<Item> freeItems = new ArrayList<>();
-        Solution modifiedSolution = Heuristics.copySolution(solution);
-        for (int i = 0; i < freeNBins; i++) {
-            // System.out.println("New Soln:");
-            // System.out.println(modifiedSolution.getBins().size());
-            int idx = findLeastFilledBin(modifiedSolution);
-            freeItems.addAll(modifiedSolution.getBins().get(idx).getItems());
-            ArrayList<Bin> newBins = modifiedSolution.getBins();
-            newBins.remove(idx);
-        }
-        finalSolution.setFreeItems(freeItems);
-        finalSolution.setModifiedSolution(modifiedSolution);
-        return finalSolution;
-    }
-
-    public int getItemsWeight(ArrayList<Item> items) {
-        int totalWeight = 0;
-        for (Item item : items) {
-            totalWeight += item.getWeight();
-        }
-        return totalWeight;
-    }
-    
-    public ModifiedBin swapTwoByTwo(Bin bin, ArrayList<Item> newItems) {
-        //System.out.println("AMBATUKAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM " + bin.getItems().size());
-        ModifiedBin finalSolution = new ModifiedBin();
-
-        Bin originalBin = Heuristics.copyBin(bin);
-        // System.out.println("AMBATUKAMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM " + originalBin.getItems().size());
-        int currentWeightDiff=originalBin.getRemainingCapacity();
-
-        finalSolution.setFreeItems(newItems);
-        finalSolution.setModifiedBin(originalBin);
-
-        for (int i = 0; i < originalBin.getItems().size(); i++) {
-            for (int j = 0; j < originalBin.getItems().size(); j++) {
+    // Method to generate pheromone matrix
+    private double[][] getPheromoneMatrix(int problem_items_size){
+        double[][] new_phenomenon_matrix = new double[problem_items_size][problem_items_size];
+        for (int i = 0; i < problem_items_size; i++) {
+            for (int j = 0; j < problem_items_size; j++) {
                 if (i != j) {
-                    ModifiedBin modifiedBin = new ModifiedBin();
-                    
-                    ArrayList<Item> tempBins = Heuristics.copyItems(originalBin.getItems()); 
-                    ArrayList<Item> newFree = Heuristics.copyItems(newItems);
-                    newFree.add(0, tempBins.get(i));
-                    newFree.add(1, tempBins.get(j));
-                    tempBins.set(i, newItems.get(0));
-                    tempBins.set(j, newItems.get(1));
-                    int newFreeLoad = getItemsWeight(tempBins);
-                    int newFreeRemainingWeight = originalBin.getCapacity() - newFreeLoad;
-
-                    if (currentWeightDiff > newFreeRemainingWeight && newFreeLoad <= originalBin.getCapacity()) {
-                        Bin newBin = new Bin(originalBin.getId(), originalBin.getCapacity(), newFreeRemainingWeight);
-                        newBin.setItems(tempBins);
-                        modifiedBin.setFreeItems(newFree);
-                        modifiedBin.setModifiedBin(newBin);
-                        return modifiedBin;
-                    }
+                    new_phenomenon_matrix[i][j] = tau_max;
                 }
             }
         }
-        return finalSolution;
+
+        return new_phenomenon_matrix;
     }
 
-    public ModifiedBin swapTwoByOne(Bin bin, ArrayList<Item> newItems) {
-        ModifiedBin finalSolution = new ModifiedBin();
-
-        Bin originalBin = Heuristics.copyBin(bin);
-        int currentWeightDiff=originalBin.getRemainingCapacity();
-
-        finalSolution.setFreeItems(newItems);
-        finalSolution.setModifiedBin(originalBin);
-
-        
-
-        for (int i = 0; i < originalBin.getItems().size(); i++) {
-            for (int j = 0; j < originalBin.getItems().size(); j++) {
-                if (i != j) {
-                    ModifiedBin modifiedBin = new ModifiedBin();
-                    
-                    ArrayList<Item> tempBins = Heuristics.copyItems(originalBin.getItems()); 
-                    // System.out.println(tempBins.size());
-                    ArrayList<Item> newFree= Heuristics.copyItems(newItems);
-                    newFree.add(0, tempBins.get(i));
-                    newFree.add(1, tempBins.get(j));
-                    tempBins.set(i, newItems.get(0));
-                    tempBins.remove(j);
-                    int newFreeLoad = getItemsWeight(tempBins);
-                    int newFreeRemainingWeight = originalBin.getCapacity() - newFreeLoad;
-
-                    if (currentWeightDiff > newFreeRemainingWeight && newFreeLoad <= originalBin.getCapacity()) {
-                        Bin newBin = new Bin(originalBin.getId(), originalBin.getCapacity(), newFreeRemainingWeight);
-                        newBin.setItems(tempBins);
-                        modifiedBin.setFreeItems(newFree);
-                        modifiedBin.setModifiedBin(newBin);
-                        return modifiedBin;
-                    }
-                }
-            }
-        }
-        return finalSolution;
-    }
-
-    public ModifiedBin swapOneByOne(Bin bin, ArrayList<Item> newItems) {
-        ModifiedBin finalSolution = new ModifiedBin();
-
-        Bin originalBin = Heuristics.copyBin(bin);
-        int currentWeightDiff=originalBin.getRemainingCapacity();
-
-        finalSolution.setFreeItems(newItems);
-        finalSolution.setModifiedBin(originalBin);
-
-        for (int i = 0; i < originalBin.getItems().size(); i++) {
-            ModifiedBin modifiedBin = new ModifiedBin();
-            
-            ArrayList<Item> tempBins = Heuristics.copyItems(originalBin.getItems()); 
-            ArrayList<Item> newFree= Heuristics.copyItems(newItems);
-            newFree.add(0, tempBins.get(i));
-            tempBins.set(i, newItems.get(0));
-            int newFreeLoad = getItemsWeight(tempBins);
-            int newFreeRemainingWeight = originalBin.getCapacity() - newFreeLoad;
-
-            if (currentWeightDiff > newFreeRemainingWeight && newFreeLoad <= originalBin.getCapacity()) {
-                Bin newBin = new Bin(originalBin.getId(), originalBin.getCapacity(), newFreeRemainingWeight);
-                newBin.setItems(tempBins);
-                modifiedBin.setFreeItems(newFree);
-                modifiedBin.setModifiedBin(newBin);
-                return modifiedBin;
-
-            }
-        }
-        return finalSolution;
-    }
-
-    public Solution firstFitDecreasing(Solution solution, ArrayList<Item> items, int binCapacity) {
+    // Method to put free items into solution using first fit decreasing algorithm.
+    public Solution firstFitDecreasing(Solution solution, ArrayList<Item> free_items, int binCapacity) {
         // Sort items by weight in decreasing order
 
         Solution ffdSolution = new Solution();
@@ -251,13 +81,13 @@ public class HybridAntColonyOptimization {
 
         // System.out.println(ffdSolution.getBins().size());
 
-        items.sort((a, b) -> Integer.compare(b.getWeight(), a.getWeight()));
+        free_items.sort((a, b) -> Integer.compare(b.getWeight(), a.getWeight()));
 
         // for (Item item : items) {
         //     System.out.println(item.getWeight());
         // }
 
-        for (Item item : items) {
+        for (Item item : free_items) {
             boolean itemAssigned = false;
             for (Bin bin : ffdSolution.getBins()) {
                 if (bin.getRemainingCapacity() >= item.getWeight()) {
@@ -281,313 +111,134 @@ public class HybridAntColonyOptimization {
         return ffdSolution;
     }
 
-    public Solution localSearch(Solution solution, int freeNBins) {
+    public Item choose_item(ArrayList<Item> remaining_items, ArrayList<Item> current_bin_items, double[][] pheromone_matrix, int bin_capacity) {
 
-        ModifiedSolution modResult = modifySolution(solution, freeNBins);
-        ArrayList<Item> freeItems = modResult.getFreeItems();
-        int freeItemSize = freeItems.size();
-        Solution modifiedSolution = Heuristics.copySolution(modResult.getModifiedSolution());
-        int binCapacity = solution.getBins().getFirst().getCapacity();
+        ArrayList<Item> fitting_items = new ArrayList<Item>();
+        ArrayList<Double> weighted_probabilities = new ArrayList<Double>();
 
-        for (int binIdx = 0; binIdx < modifiedSolution.getBins().size(); binIdx++) {
-            Bin currentBin = modifiedSolution.getBins().get(binIdx);
-            freeItemSize = freeItems.size();
+        double pheromone_sum = 0.0;
+        int division_factor = (current_bin_items.size() != 0 ? current_bin_items.size() : 1);
+        double pheromone;
 
-            for (int i = 1; i < freeItemSize; i++) {
-                ArrayList<Item> pair = new ArrayList<>();
-                pair.add(freeItems.get(i - 1));
-                pair.add(freeItems.get(i));
+        boolean all_weighted_probabilities_zero = true;
 
-                ModifiedBin swapResult = swapTwoByTwo(currentBin, pair);
-                if (swapResult.getFreeItems().size() > 0) {
-                    freeItems.set(i - 1, swapResult.getFreeItems().get(0));
-                    freeItems.set(i, swapResult.getFreeItems().get(1));
-                    modifiedSolution.getBins().set(binIdx, swapResult.getModifiedBin());
-                    break;
+
+        int current_bin_weight = 0;
+
+        for (Item item : current_bin_items) {
+            current_bin_weight += item.getWeight();
+        }
+        
+        int itemIndex = 0;
+        for (Item item : remaining_items) {
+            if (current_bin_weight + item.getWeight() <= bin_capacity) {
+                fitting_items.add(item);
+                item.setItemIndex(itemIndex);
+                itemIndex++;
+            }
+        }
+
+        for (Item item : fitting_items) {
+            if (!current_bin_items.isEmpty()) {
+                for (Item other_item : current_bin_items) {
+                    if (item.getWeight() != other_item.getWeight()) {
+
+                        int minIndex = Math.min(item.getItemIndex(), other_item.getItemIndex());
+                        int maxIndex = Math.max(item.getItemIndex(), other_item.getItemIndex());
+
+                        int pheromoneMatrixMaxIndex = pheromone_matrix.length - 1;
+
+                        if (minIndex >= 0 && minIndex <= pheromoneMatrixMaxIndex && maxIndex >= 0 && maxIndex <= pheromoneMatrixMaxIndex) {
+                            pheromone_sum += this.pheromone_matrix[minIndex][maxIndex];
+                        }
+
+                        else {
+                            pheromone_sum += this.pheromone_matrix[0][0];
+                        }
+                        
+                    }
                 }
 
-                freeItemSize = freeItems.size();
+                pheromone = pheromone_sum / division_factor;
             }
 
-            freeItemSize = freeItems.size();
-
-            for (int i = 1; i < freeItemSize; i++) {
-                ArrayList<Item> pair = new ArrayList<>();
-                pair.add(freeItems.get(i - 1));
-                pair.add(freeItems.get(i));
-
-                ModifiedBin swapResult = swapTwoByOne(currentBin, pair);
-                if (swapResult.getFreeItems().size() > 0) {
-                    freeItems.set(i - 1, swapResult.getFreeItems().get(0));
-                    freeItems.remove(i);
-                    modifiedSolution.getBins().set(binIdx, swapResult.getModifiedBin());
-                    break;
-                }
-                freeItemSize = freeItems.size();
+            else {
+                pheromone = tau_max;
             }
 
-            freeItemSize = freeItems.size();
+            int heuristic = item.getWeight();
+            double weight_probability = Math.pow(pheromone, alpha) * Math.pow(heuristic, beta);
+            weighted_probabilities.add(weight_probability);
 
-            for (int i = 0; i < freeItemSize; i++) {
-                ArrayList<Item> pair = new ArrayList<>();
-                pair.add(freeItems.get(i));
+        }
+        
+        // If no items can be placed, return item with -1 weight to indicate the start of a new bin.
 
-                ModifiedBin swapResult = swapOneByOne(currentBin, pair);
-                if (swapResult.getFreeItems().size() > 0) {
-                    freeItems.set(i, swapResult.getFreeItems().get(0));
-                    modifiedSolution.getBins().set(binIdx, swapResult.getModifiedBin());
-                    break;
-                }
-                freeItemSize = freeItems.size();
-            }
+        if (weighted_probabilities.isEmpty()) {
+            return new Item(-1);
         }
 
-        return firstFitDecreasing(modifiedSolution, freeItems, binCapacity);
-    }
-
-    public  Solution findBetter(Solution solution, int binsToOpen) {
-
-        Solution originalSolution = Heuristics.copySolution(solution);
-        double originalFitness = solution.getObjectiveFunctionValue();
-
-        Solution modifiedSolution = localSearch(originalSolution, binsToOpen);
-        double currentFitness = Heuristics.objectiveFunction(modifiedSolution);
-
-        while (originalFitness < currentFitness) {
-            Solution tempSolution = Heuristics.copySolution(modifiedSolution); // Clone or deep copy the modified solution
-            originalFitness = currentFitness;
-            modifiedSolution = localSearch(tempSolution, binsToOpen);
-            currentFitness = Heuristics.objectiveFunction(modifiedSolution);
-        }
-
-        if (originalFitness >= currentFitness && solution.getBins().size() >= modifiedSolution.getBins().size()) {
-            return modifiedSolution;
-        } else {
-            return solution;
-        }
-    }
-
-    public boolean packingAllowed(Item item, Bin bin, ArrayList<Item> possibleItems) {
-        ArrayList<Item> binItems = bin.getItems();
-        int freeSpace = bin.getRemainingCapacity();
-        if (item.getWeight() > freeSpace) {
-            return false;
-        }
-
-        double denominator = 0;
-        for (Item i : possibleItems) {
-            if (i.getWeight() <= freeSpace) {
-                denominator += decisionFormulaTerm(i, binItems);
-            }
-        }
-        double numerator = decisionFormulaTerm(item, binItems);
-
-        double probability = 0;
-        if (!possibleItems.isEmpty()) {
-            probability = (numerator / denominator);
-        }
-        double stateUniform = rand.nextDouble() * longScalarCoeff;
-        return stateUniform < probability;
-    }
-
-    private double decisionFormulaTerm(Item item, ArrayList<Item> binItems) {
-        double d = taoCoeff(item, binItems) * Math.pow(item.getWeight(), beta);
-        return d * longScalarCoeff;
-    }
-
-    private double taoCoeff(Item item, ArrayList<Item> binItems) {
-        if (binItems.isEmpty()) {
-            return 1;
-        }
-
-        double pheromonesSum = 0;
-        for (Item binItem : binItems) {
-            pheromonesSum += pheromone_matrix[binItem.getItemId()][item.getItemId()];
-        }
-        return pheromonesSum / binItems.size();
-    }
-
-
-    public ArrayList<Solution> runAnts(ArrayList<Item> items) {
-
-        ArrayList<Solution> solutions = new ArrayList<Solution>();
-        for (int i = 0; i < noAnts; i++) {
-            ArrayList<Item> antItems = Heuristics.copyItems(items);
-            // System.out.println("new ant");
-
-            Solution solution = new Solution();
-            solution.setProblemName(this.problem.getProblemName());
-            ArrayList<Bin> path = buildSolution(antItems);
-            solution.setBins(Heuristics.copyBins(path));
-            solution.setBinCount(path.size());
-            
-            //solution.setObjectiveFunctionValue();
-
-            System.out.println(Heuristics.objectiveFunction(solution));
-
-            int binCnt = 0;
-            for (Bin bin : solution.getBins()) {
-
-                System.out.println("Bin ID: " + binCnt);
-                System.out.println("Bin Capacity: " + bin.getCapacity());
-                System.out.println("Remaining Bin Capacity: " + bin.getRemainingCapacity());
-                
-                for (Item item : bin.getItems()) {
-                    System.out.println("Item Weight: " + item.getWeight());
-                }
-
-                System.out.println();
-
-                binCnt ++;
-            }
-
-            // System.out.println(Heuristics.objectiveFunction(solution));
-            // System.out.println(solution.getObjectiveFunctionValue());
-
-            // Solution antSolution = new Solution();
-            // antSolution = Heuristics.copySolution(findBetter(solution, free_n_bins)); 
-            // antSolution.setObjectiveFunctionValue(Heuristics.objectiveFunction(antSolution));
-            // solutions.add(antSolution);
-
-            solutions.add(solution);
-        }
-        return solutions;
-    }
-
-
-    public ArrayList<Bin> buildSolution(ArrayList<Item> items) {
-        ArrayList<Bin> path = new ArrayList<>();
-        for(int i = 0; i < items.size(); i++){
-            Bin packedBin = packBin(items);
-            packedBin.setId(i);
-            if (!packedBin.getItems().isEmpty()) {
-                path.add(packedBin);
-                for(Item item : packedBin.getItems()){
-                    items.remove(item);
-                }
-            }
-            else{
+        for (double weight_probability : weighted_probabilities) {
+            if (weight_probability != 0) {
+                all_weighted_probabilities_zero = false;
                 break;
             }
+
+            all_weighted_probabilities_zero = true;
         }
-        return path;
-    }
 
-    private Bin packBin(ArrayList<Item> items) {
-        // System.out.println(items.size());
-        Bin bin = new Bin(0, binCapacity, binCapacity);
-        ArrayList<Item> binItems =  new ArrayList<>();
-
-        while (!items.isEmpty() && bin.getRemainingCapacity() >= findMinWeight(items)) {
-            for (int i = 0; i < items.size(); i++) {
-                Item item = items.get(i);
-                if (packingAllowed(item, bin, items)) {
-                    binItems.add(item);
-                    bin.setRemainingCapacity(bin.getRemainingCapacity() - item.getWeight());
-                    items.remove(i);
-                    break;  // Break to reassess the best next item after adding one
-                }
-            }
+        if (all_weighted_probabilities_zero) {
+            return new Item(-1);
         }
-        bin.setItems(binItems);
-        return bin;
+
+        // Get random item with calculated weighted probability
+        WeightedRandomSelection wrs = new WeightedRandomSelection();
+        Item chosen_item = wrs.chooseItemWithWeightedProbability(fitting_items, weighted_probabilities);
+
+        return chosen_item;
     }
-
-    private int findMinWeight(List<Item> items) {
-        return items.stream().mapToInt(Item::getWeight).min().orElse(0);
-    }
-
-    public HybridAntColonyOptimization(BinPackingProblem problem) {
-        this.problem = problem;
-        allItems = this.problem.getItems();
-        noAnts = allItems.size();
-        pheromone_matrix =  getPheromoneMatrix(allItems);
-        setHeuristicInfo(allItems);
-        binCapacity=problem.getBinCapacity();
-    }
-
-
 
     public FinalSolution applyHybridAntColonyOptimization() {
-
         // To store multiple generations' results
-        ArrayList<Generation> generationResults = new ArrayList<>();
+        ArrayList<Generation> generationResults = new ArrayList<Generation>();
 
         // To store final solution
         FinalSolution finalSolution = new FinalSolution();
         
+        // To store global best solution
         Solution globalBestSolution = new Solution();
         globalBestSolution.setObjectiveFunctionValue(0);
 
-        // Global best no. of bins
-        int b_star = -1;
-
-
         for (int generation_id = 1; generation_id <= max_iterations; generation_id++) {
-            Solution iterationBestSolution = new Solution();
-            iterationBestSolution.setObjectiveFunctionValue(0);
-            ArrayList<Solution> solutions = runAnts(allItems);
-            evaporatePheromones();
+            
+            for (int ant = 0; ant < number_of_ants; ant++) {
+                ArrayList<Item> remaining_items = Heuristics.copyItems(this.problem_items);
 
-            //System.out.println(solutions.size());
+                int itemIndex = 0;
 
-            // int binCnt = 1;
-            // for (Bin bin : iterationBestSolution.getBins()) {
-            //     System.out.println("Bin ID: " + binCnt);
-            //     for (Item item: bin.getItems()) {
-            //         System.out.println("Item Weight: " + item.getWeight());
-            //     }
+                for (Item item : remaining_items) {
+                    item.setItemId(itemIndex);
+                    itemIndex++;
+                }
 
-            //     System.out.println();
-            //     binCnt++;
-            // }
+                while (!remaining_items.isEmpty()) {
+                    ArrayList<Item> current_bin_items = new ArrayList<Item>();
 
-            for(int index = 0; index < solutions.size(); index++){
-                Solution currentSolution = solutions.get(index);
-                double currentFitness = currentSolution.getObjectiveFunctionValue();
-                
-                if (iterationBestSolution.getBins().isEmpty() || currentFitness > iterationBestSolution.getObjectiveFunctionValue()) {
-                    //System.out.println("In IF FOR IBS");
-                    iterationBestSolution = Heuristics.copySolution(currentSolution);
-                    //System.out.println(currentSolution.getObjectiveFunctionValue());
+                    while (!remaining_items.isEmpty()) {
+                        Item item = choose_item(remaining_items, current_bin_items, pheromone_matrix, this.problem.getBinCapacity());
+                    }
                 }
             }
 
-            if (Heuristics.objectiveFunction(iterationBestSolution) > globalBestSolution.getObjectiveFunctionValue()) {
-                globalBestSolution = Heuristics.copySolution(iterationBestSolution);
-                // System.out.println("In IF");
-                
-                // System.out.println(iterationBestSolution.getProblemName());
-            }
-
-            if (generation_id % 5 == 0 && generation_id > 0) {
-                updatePheromones(globalBestSolution);
-            } else {
-                updatePheromones(iterationBestSolution);
-            }
-
-            b_star = globalBestSolution.getBins().size();
-
-            System.out.println("Iteration Obj Func Value: " + Heuristics.objectiveFunction(iterationBestSolution));
-
-            // Store generation results
-            Generation generation = new Generation();
-            generation.setGenerationId(generation_id);
-            generation.setCandidateSolutions(new ArrayList<>(solutions));
-            generation.setBestSolution(iterationBestSolution);
-            generationResults.add(generation);
-
-            // Terminate if lower bound has been achieved
-            // if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
-            //     break;
-            // }
-            
         }
 
-        finalSolution.setBestSolution(globalBestSolution);
-        finalSolution.setGenerations(generationResults);
+        boolean break_flag = false;
+
+
+
+
+
 
         return finalSolution;
     }
-
 }

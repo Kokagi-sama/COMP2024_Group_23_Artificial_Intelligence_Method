@@ -5,6 +5,7 @@ public class Item {
     private int binId;
     private int itemId;
     private int weight;
+    private int itemIndex;
 
     public Item(int weight) {
         this.weight = weight;
@@ -28,5 +29,13 @@ public class Item {
 
     public int getWeight() {
         return weight;
+    }
+
+    public void setItemIndex(int itemIndex) {
+        this.itemIndex = itemIndex;
+    }
+
+    public int getItemIndex() {
+        return itemIndex;
     }
 }

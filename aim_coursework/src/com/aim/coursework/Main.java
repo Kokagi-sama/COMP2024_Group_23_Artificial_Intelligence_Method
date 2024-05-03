@@ -65,13 +65,15 @@ public class Main {
                 ChartUtilities.buildAndDisplayXYCharts("PerturbationMBS_Algorithm", perturbationmbs_solution, chartWidth, chartHeight);
             }
             
-            // //  Creating and saving Hybrid Ant Colony Optimization solution
-            // for (BinPackingProblem problem: problems) {
-            //     HybridAntColonyOptimization HACO = new HybridAntColonyOptimization(problem);
-            //     FinalSolution HACO_algorithm_solution = HACO.applyHybridAntColonyOptimization();
-            //     PrintSolutionToFile.saveResult(HACO_algorithm_solution, output_directory, "HACO_Algorithm");
-            //     ChartUtilities.buildAndDisplayXYCharts("HACO_Algorithm", HACO_algorithm_solution, chartWidth, chartHeight);
-            // }
+            //  Creating and saving Hybrid Ant Colony Optimization solution
+            for (BinPackingProblem problem: problems) {
+                HybridAntColonyOptimization HACO = new HybridAntColonyOptimization(problem);
+                FinalSolution HACO_algorithm_solution = HACO.applyHybridAntColonyOptimization();
+                PrintSolutionToFile.saveResult(HACO_algorithm_solution, output_directory, "HACO_Algorithm");
+                ChartUtilities.buildAndDisplayXYCharts("HACO_Algorithm", HACO_algorithm_solution, chartWidth, chartHeight);
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
