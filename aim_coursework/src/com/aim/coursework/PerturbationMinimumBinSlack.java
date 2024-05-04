@@ -65,8 +65,8 @@ public class PerturbationMinimumBinSlack {
 
         while (improvement && generation_id < maxIterations) {
 
-            Random rand2 = new Random(); // Create the first Random object
-            int seed = rand2.nextInt(lowerBound); // Generate a random integer to use as a seed
+            Random randSeed = new Random(); // Create the first Random object
+            int seed = randSeed.nextInt(lowerBound); // Generate a random integer to use as a seed
             Random rand = new Random(seed); // Create the second Random object using the generated seed
 
             // Check lower bound

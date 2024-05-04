@@ -3,8 +3,8 @@ package com.aim.coursework;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+// import java.util.List;
+// import java.util.Map;
 
 import com.aimframeworkgrp23.*;
 
@@ -19,8 +19,6 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-
-            // Problem -> (Algorithm Name - > Time Taken)
 
             // Linked Hash Map to store time taken by each algorith to complete {algorithm_iterations} for each problem
             LinkedHashMap<String, ArrayList<LinkedHashMap<String, Long>>> final_times_map = new LinkedHashMap<>();
@@ -406,7 +404,7 @@ public class Main {
             System.out.println("Ant Colony Optimization Solutions Generated Successfully for All Problems in " + elapsed_time_aco + " milliseconds!");
             System.out.println();
 
-            printTimes(final_times_map);
+            // printTimes(final_times_map);
 
             ChartUtilities.buildAndSaveTimeBarChart(final_times_map, result_output_directory, chart_width, chart_height);
             
@@ -417,18 +415,18 @@ public class Main {
         }
     }
 
-    public static void printTimes(LinkedHashMap<String, ArrayList<LinkedHashMap<String, Long>>> final_times_map) {
-        for (Map.Entry<String, ArrayList<LinkedHashMap<String, Long>>> problemEntry : final_times_map.entrySet()) {
-            System.out.println("Problem: " + problemEntry.getKey());
-            List<LinkedHashMap<String, Long>> algorithmList = problemEntry.getValue();
+    // public static void printTimes(LinkedHashMap<String, ArrayList<LinkedHashMap<String, Long>>> final_times_map) {
+    //     for (Map.Entry<String, ArrayList<LinkedHashMap<String, Long>>> problemEntry : final_times_map.entrySet()) {
+    //         System.out.println("Problem: " + problemEntry.getKey());
+    //         List<LinkedHashMap<String, Long>> algorithmList = problemEntry.getValue();
 
-            for (int i = 0; i < algorithmList.size(); i++) {
-                LinkedHashMap<String, Long> algorithmTimes = algorithmList.get(i);
-                for (Map.Entry<String, Long> algorithmEntry : algorithmTimes.entrySet()) {
-                    System.out.println("    " + algorithmEntry.getKey() + ": " + algorithmEntry.getValue() + " ms");
-                }
-            }
-            System.out.println();
-        }
-    }
+    //         for (int i = 0; i < algorithmList.size(); i++) {
+    //             LinkedHashMap<String, Long> algorithmTimes = algorithmList.get(i);
+    //             for (Map.Entry<String, Long> algorithmEntry : algorithmTimes.entrySet()) {
+    //                 System.out.println("    " + algorithmEntry.getKey() + ": " + algorithmEntry.getValue() + " ms");
+    //             }
+    //         }
+    //         System.out.println();
+    //     }
+    // }
 }

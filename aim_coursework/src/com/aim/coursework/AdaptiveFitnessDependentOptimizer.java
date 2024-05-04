@@ -62,7 +62,7 @@ public class AdaptiveFitnessDependentOptimizer {
 
                 double f_X_it = X_it.getObjectiveFunctionValue();
 
-                double wf = 1;
+                double wf = 0;
 
                 double fw = Math.abs((1-(f_X_star_it)) / (1-(f_X_it))) * wf;
 

@@ -121,9 +121,23 @@ public class ChartUtilities {
 
     private static <T extends Number> void buildSaveBoxPlot(ArrayList<T> problem_values, String title, String problem_name, String algorithm_name, String output_directory, 
         int width, int height, boolean adjustNumberAxis) {
+
+        // Check if the list contains Double instances
+
+        double[] mean_and_std_dev = null;
+
+        if (!problem_values.isEmpty() && problem_values.get(0) instanceof Double) {
+            @SuppressWarnings("unchecked") // Safe cast because of the instance check
+            ArrayList<Double> doubleValues = (ArrayList<Double>) (ArrayList<?>) problem_values;
+            
+            // Calculate Mean and Standard Deviation
+            mean_and_std_dev = StatisticsCalculator.calculateMeanAndStdDev(doubleValues);
+        }
+
         // Generate and save a box plot for given values of each problem across all iterations
         DefaultBoxAndWhiskerCategoryDataset datasetObjectiveValues = new DefaultBoxAndWhiskerCategoryDataset();
-        datasetObjectiveValues.add(problem_values, problem_name, "");
+        String label = (mean_and_std_dev != null) ? "x̄= " + mean_and_std_dev[0] + "    σ= " + mean_and_std_dev[1] : "";
+        datasetObjectiveValues.add(problem_values, problem_name, label);
 
         JFreeChart boxPlot = ChartFactory.createBoxAndWhiskerChart(
             title + " for " + problem_name,
