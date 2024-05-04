@@ -6,13 +6,17 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 //import javax.swing.JFrame;
+import java.awt.Color;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +24,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChartUtilities {
 
@@ -118,7 +125,7 @@ public class ChartUtilities {
         DefaultBoxAndWhiskerCategoryDataset datasetObjectiveValues = new DefaultBoxAndWhiskerCategoryDataset();
         datasetObjectiveValues.add(problem_values, problem_name, "");
 
-        JFreeChart boxplotObjectiveValues = ChartFactory.createBoxAndWhiskerChart(
+        JFreeChart boxPlot = ChartFactory.createBoxAndWhiskerChart(
             title + " for " + problem_name,
             "Algorithm Iterations",
             title,
@@ -126,8 +133,10 @@ public class ChartUtilities {
             true
         );
 
+        boxPlot.removeLegend();
+
         // Get the plot from the chart and adjust the renderer
-        CategoryPlot plot = (CategoryPlot) boxplotObjectiveValues.getPlot();
+        CategoryPlot plot = (CategoryPlot) boxPlot.getPlot();
         BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
 
         renderer.setFillBox(false); // Controls whether the box is filled or just an outline.
@@ -152,9 +161,51 @@ public class ChartUtilities {
         plot.setRenderer(renderer); // Set the renderer on the correct plot type.
 
         String saveFilePath = output_directory + problem_name + "/" + algorithm_name + "/boxplot/" + title.trim().replace(" ", "") + "Boxplot.png";
-        saveChartAsPNG(boxplotObjectiveValues, saveFilePath, width, height);
+        saveChartAsPNG(boxPlot, saveFilePath, width, height);
 
         //showChartInFrame(-1, algorithm_name, problem_name, "-" + title + " Across Problems", boxplot, width, height, true);
+    }
+
+    public static void buildAndSaveTimeBarChart(LinkedHashMap<String, ArrayList<LinkedHashMap<String, Long>>> final_times_map, String output_directory, int width, int height) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Iterate over each problem and their respective list of algorithm times
+        for (Map.Entry<String, ArrayList<LinkedHashMap<String, Long>>> problemEntry : final_times_map.entrySet()) {
+            String problemName = problemEntry.getKey();
+            List<LinkedHashMap<String, Long>> algorithmList = problemEntry.getValue();
+
+            for (LinkedHashMap<String, Long> algorithmTimes : algorithmList) {
+                for (Map.Entry<String, Long> algorithmEntry : algorithmTimes.entrySet()) {
+                    String algorithmName = algorithmEntry.getKey();
+                    Long time = algorithmEntry.getValue();
+                    dataset.addValue(time, algorithmName, problemName);
+                }
+            }
+        }
+
+        // Create the bar chart
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Algorithm Performance Comparison",
+                "Problem Name",
+                "Time (ms)",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer barRenderer = (BarRenderer) plot.getRenderer();
+
+        Color[] colors = new Color[]{Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN}; // Define more colors as needed
+        for (int i = 0; i < dataset.getRowCount(); i++) {
+            barRenderer.setSeriesPaint(i, colors[i % colors.length]);
+        }
+
+        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+        yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+        // Save the chart as a PNG
+        String saveFilePath = output_directory + "time_comparision_chart.png";
+        saveChartAsPNG(chart, saveFilePath, width, height);
     }
 
     private static void saveChartAsPNG(JFreeChart chart, String saveFilePath, int width, int height) {

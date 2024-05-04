@@ -153,6 +153,7 @@ public class AdaptiveFitnessDependentOptimizer {
 
             // Terminate if lower bound has been achieved
             if (b_star <= Heuristics.calculateLowerBound(generation.getBestSolution().getBins(), generation.getBestSolution().getBins().getFirst().getCapacity())) {
+                System.out.println(String.format("\tReached lower bound of %d, terminating the algorithm.", b_star));
                 break;
             }
 

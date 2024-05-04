@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-// Sufficient Average Weight Minimum Bin Slack Algorithm
+
 public class PerturbationMinimumBinSlack {
 
     // Parameters
@@ -71,7 +71,7 @@ public class PerturbationMinimumBinSlack {
 
             // Check lower bound
             if (bins.size() <= lowerBound) {
-                System.out.println(String.format("Reached lower bound of %d, terminating the algorithm.", lowerBound));
+                System.out.println(String.format("\tReached lower bound of %d, terminating the algorithm.", lowerBound));
                 break;
             }
 

@@ -174,6 +174,7 @@ public class SimulatedAnnealing {
             
             // Terminate if lower bound has been achieved
             if (end == true) {
+                System.out.println(String.format("\tReached lower bound of %d, terminating the algorithm.", b_star));
                 break;
             }
         }
