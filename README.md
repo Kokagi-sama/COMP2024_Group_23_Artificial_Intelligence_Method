@@ -6,7 +6,7 @@ This project is part of the COMP2024 coursework, which includes two main compone
 
 ## Prerequisites
 - Java JDK 21 or any other suitable version of JDK.
-- Apache Maven 3.9.5 (Note: Maven setup is optional since a pre-compiled Custom Framework's Fat JAR will be provided)
+- Apache Maven 3.9.5 or any other suitable version of Maven. (Note: Maven setup is optional since a pre-compiled Custom Framework's Fat JAR will be provided)
 
 ## Setup Instructions
 
