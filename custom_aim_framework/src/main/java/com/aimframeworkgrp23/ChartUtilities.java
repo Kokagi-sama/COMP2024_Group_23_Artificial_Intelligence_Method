@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Comparator;
 
 public class ChartUtilities {
 
@@ -91,101 +89,72 @@ public class ChartUtilities {
         //showChartInFrame(iteration, algorithmName, problemName, chartType, xyChart, width, height, false);
     }
 
-    public static void buildAndSaveBoxPlot(ArrayList<ArrayList<Solution>> bestFinalSolutionsPerAlgorithmIteration, String algorithm_name, String output_directory, int width, int height) {
+    public static void buildAndSaveBoxPlot(ArrayList<Solution> bestFinalSolutionsPerProblemPerAlgorithmIteration, String algorithm_name, String output_directory, int width, int height) {
 
         // Using LinkedHashMap to preserve the order of problem names and associate each with a list of values
-        LinkedHashMap<String, List<Double>> problemObjectiveValuesMap = new LinkedHashMap<>();
-        LinkedHashMap<String, List<Integer>> problemBinValuesMap = new LinkedHashMap<>();
+        ArrayList<Double> problemObjectiveValues = new ArrayList<Double>();
+        ArrayList<Integer> problemBinCountValues = new ArrayList<Integer>();
+        String problem_name = bestFinalSolutionsPerProblemPerAlgorithmIteration.getFirst().getProblemName();
 
         // Collect values for each problem across all iterations
-        for (List<Solution> solutions : bestFinalSolutionsPerAlgorithmIteration) {
-            for (Solution solution : solutions) {
-                String problemName = solution.getProblemName();
+        
+        for (Solution solution : bestFinalSolutionsPerProblemPerAlgorithmIteration) {
 
-                // Objective function value map per problem across all iterations
-                problemObjectiveValuesMap.putIfAbsent(problemName, new ArrayList<>());
-                problemObjectiveValuesMap.get(problemName).add(solution.getObjectiveFunctionValue());
+            // Objective function value map for a problem across all iterations
+            problemObjectiveValues.add(solution.getObjectiveFunctionValue());
 
-                // Bin count value map per problem per problem across all iterations
-                problemBinValuesMap.putIfAbsent(problemName, new ArrayList<>());
-                problemBinValuesMap.get(problemName).add(solution.getBinCount());
-            }
+            // Bin count value map for a problem across all iterations
+            problemBinCountValues.add(solution.getBinCount());
+           
         }
-     
-        // Generate and save a box plot for objective values of each problem
-        for (Map.Entry<String, List<Double>> entry : problemObjectiveValuesMap.entrySet()) {
-            DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-            dataset.add(entry.getValue(), entry.getKey(), "");
+        
+        buildSaveBoxPlot(problemObjectiveValues, "Objective Function Values", problem_name, algorithm_name, output_directory, width, height, false);
+        buildSaveBoxPlot(problemBinCountValues, "Bin Count Values", problem_name, algorithm_name, output_directory, width, height, true);
+    }
 
-            JFreeChart boxplot = ChartFactory.createBoxAndWhiskerChart(
-                "Objective Function Values for " + entry.getKey(),
-                "Algorithm Iterations",
-                "Objective Function Values",
-                dataset,
-                true
-            );
+    private static <T extends Number> void buildSaveBoxPlot(ArrayList<T> problem_values, String title, String problem_name, String algorithm_name, String output_directory, 
+        int width, int height, boolean adjustNumberAxis) {
+        // Generate and save a box plot for given values of each problem across all iterations
+        DefaultBoxAndWhiskerCategoryDataset datasetObjectiveValues = new DefaultBoxAndWhiskerCategoryDataset();
+        datasetObjectiveValues.add(problem_values, problem_name, "");
 
-            // Get the plot from the chart and adjust the renderer
-            CategoryPlot plot = (CategoryPlot) boxplot.getPlot();
-            BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
+        JFreeChart boxplotObjectiveValues = ChartFactory.createBoxAndWhiskerChart(
+            title + " for " + problem_name,
+            "Algorithm Iterations",
+            title,
+            datasetObjectiveValues,
+            true
+        );
 
-            renderer.setFillBox(false); // Controls whether the box is filled or just an outline.
-            renderer.setMeanVisible(true);
-            renderer.setUseOutlinePaintForWhiskers(true);
-            renderer.setMaximumBarWidth(0.15); // Set the maximum bar width to control box width.
+        // Get the plot from the chart and adjust the renderer
+        CategoryPlot plot = (CategoryPlot) boxplotObjectiveValues.getPlot();
+        BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
 
-            // Setting the outliers to be visible
-            renderer.setMaxOutlierVisible(true);
-            renderer.setMinOutlierVisible(true);
+        renderer.setFillBox(false); // Controls whether the box is filled or just an outline.
+        renderer.setMeanVisible(true);
+        renderer.setUseOutlinePaintForWhiskers(true);
+        renderer.setMaximumBarWidth(0.15); // Set the maximum bar width to control box width.
 
-            plot.setRenderer(renderer); // Set the renderer on the correct plot type.
+        // Setting the outliers to be visible
+        renderer.setMaxOutlierVisible(true);
+        renderer.setMinOutlierVisible(true);
 
-            String saveFilePath = output_directory + entry.getKey().trim().replace(" ", "_") + "/" + algorithm_name + "/boxplot/" + "ObjectiveFunctionValuesBoxplot.png";
-            saveChartAsPNG(boxplot, saveFilePath, width, height);
-
-            //showChartInFrame(-1, algorithm_name, entry.getKey().trim().replace(" ", "_"), "-Objective Function Values Across Problems", boxplot, width, height, true);
-        }
-
-        // Generate and save a box plot for bin count of each problem
-        for (Map.Entry<String, List<Integer>> entry : problemBinValuesMap.entrySet()) {
-            DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
-            dataset.add(entry.getValue(), entry.getKey(), "");
-
-            JFreeChart boxplot = ChartFactory.createBoxAndWhiskerChart(
-                "Bin Count Values for " + entry.getKey(),
-                "Algorithm Iterations",
-                "Bin Count Values",
-                dataset,
-                true
-            );
-
-            // Get the plot from the chart and adjust the renderer
-            CategoryPlot plot = (CategoryPlot) boxplot.getPlot();
-            BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
-
-            renderer.setFillBox(true); // Controls whether the box is filled or just an outline.
-            renderer.setMeanVisible(true); // Hide the mean marker if desired.
-            renderer.setUseOutlinePaintForWhiskers(true);
-            renderer.setMaximumBarWidth(0.15); // Set the maximum bar width to control box width.
-
-            // Setting the outliers to be visible
-            renderer.setMaxOutlierVisible(true);
-            renderer.setMinOutlierVisible(true);
-
-            // Adjusting the y-axis to better fit the range of your data
+        if (adjustNumberAxis) {
+            // Adjusting the y-axis to better fit the range
             NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
-            int binCount = Collections.min(entry.getValue());
-            yAxis.setRange(binCount - 2, binCount + 2); // Replace minBinCount and maxBinCount with your data's range
+            Comparator<Number> numberComparator = Comparator.comparingInt(Number::intValue);
+            Number minValue = Collections.min(problem_values, numberComparator);
+            Number maxValue = Collections.max(problem_values, numberComparator);
+            yAxis.setRange(minValue.intValue() - 4, maxValue.intValue() + 4);
             yAxis.setNumberFormatOverride(NumberFormat.getIntegerInstance()); // Display axis labels as integers
-
-
-            plot.setRenderer(renderer); // Set the renderer on the correct plot type.
-
-            String saveFilePath = output_directory + entry.getKey().trim().replace(" ", "_") + "/" + algorithm_name + "/boxplot/" + "BinCountValuesBoxplot.png";
-            saveChartAsPNG(boxplot, saveFilePath, width, height);
-
-            //showChartInFrame(-1, algorithm_name, entry.getKey().trim().replace(" ", "_"), "-Bin Count Values Across Problems", boxplot, width, height, true);
         }
+
+        plot.setRenderer(renderer); // Set the renderer on the correct plot type.
+
+        String saveFilePath = output_directory + problem_name + "/" + algorithm_name + "/boxplot/" + title.trim().replace(" ", "") + "Boxplot.png";
+        saveChartAsPNG(boxplotObjectiveValues, saveFilePath, width, height);
+
+        //showChartInFrame(-1, algorithm_name, problem_name, "-" + title + " Across Problems", boxplot, width, height, true);
     }
 
     private static void saveChartAsPNG(JFreeChart chart, String saveFilePath, int width, int height) {

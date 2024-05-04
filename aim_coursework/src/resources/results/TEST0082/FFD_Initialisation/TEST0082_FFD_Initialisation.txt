@@ -1,3 +1,0 @@
-==== Initial Solution for problem: TEST0082 ====
-Obejctive function value: 0.9431084843999998
-Bins used: 25
