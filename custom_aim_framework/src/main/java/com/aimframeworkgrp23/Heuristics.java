@@ -1,0 +1,152 @@
+package com.aimframeworkgrp23;
+
+import java.util.ArrayList;
+
+public class Heuristics {
+
+    // Objective Function and overloads
+
+    // Objective function for solution passed directly
+    public static double objectiveFunction(Solution solution, int z) {
+        double fitness = 0;
+        int binCnt = 0;
+    
+        for (Bin bin : solution.getBins()) {
+            double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
+
+            if (load != 0) {
+                binCnt++;
+            }
+
+            double filledRatio = load / (double) bin.getCapacity();
+            double load_square = Math.pow(filledRatio, z);
+            fitness += load_square;
+        }
+    
+        return fitness / binCnt;
+    }
+
+    // Overloaded objective function with default z value = 2 for solution 
+    public static double objectiveFunction(Solution solution) {
+        return objectiveFunction(solution, 2);
+    }
+    
+    // Objective function for Arraylist of Bins passed directly
+    public static double objectiveFunction (ArrayList<Bin> bins, int z) {
+        double fitness = 0;
+        int binCnt = 0;
+
+        for (Bin bin : bins) {
+            double load = (bin.getCapacity() - bin.getRemainingCapacity()) == 10000 ? 0 : (double) (bin.getCapacity() - bin.getRemainingCapacity());
+
+            if (load != 0) {
+                binCnt++;
+            }
+
+            double filledRatio = load / (double) bin.getCapacity();
+            double load_square = Math.pow(filledRatio, z);
+            fitness += load_square;
+        }
+
+        if (binCnt == 0) {
+            return 0;
+        }
+
+        return fitness / binCnt;
+    }
+
+    // Overloaded objective function with default z value = 2 for ArrayList of Bins passed directly
+    public static double objectiveFunction(ArrayList<Bin> bins) {
+        return objectiveFunction(bins, 2);
+    }    
+    
+    // Method to deep copy a Solution
+    public static Solution copySolution(Solution original) {
+        Solution copySolution = new Solution();
+        copySolution.setProblemName(original.getProblemName());
+        
+
+        for (Bin originalBin : original.getBins()) {
+            Bin copiedBin = new Bin(originalBin.getId(), originalBin.getCapacity(), originalBin.getRemainingCapacity());
+
+            for (Item originalItem : originalBin.getItems()) {
+                Item copiedItem = new Item(originalItem.getWeight());
+                copiedItem.setBinId(originalItem.getBinId());
+                copiedItem.setItemId(originalItem.getItemId());
+                copiedBin.getItems().add(copiedItem);
+            }
+
+            copySolution.getBins().add(copiedBin);
+        }
+
+        copySolution.setObjectiveFunctionValue(original.getObjectiveFunctionValue());
+        copySolution.setBinCount(copySolution.getBins().size());
+
+        return copySolution;
+    }
+
+    // Method to deep copy Bins
+    public static ArrayList<Bin> copyBins(ArrayList<Bin> bins) {
+        ArrayList<Bin> copyBins = new ArrayList<Bin>();
+
+        for (Bin bin: bins) {
+            copyBins.add(copyBin(bin));
+        }
+
+        return copyBins;
+    }
+
+    // Method to deep copy a Bin
+    public static Bin copyBin(Bin bin) {
+        Bin copyBin = new Bin(bin.getId(), bin.getCapacity(), bin.getRemainingCapacity());
+
+        ArrayList<Item> copyItems = new ArrayList<Item>();
+
+        copyItems = copyItems(bin.getItems());
+
+        copyBin.setItems(copyItems);
+
+        return copyBin;
+    }
+
+    // Method to deep copy Items
+    public static ArrayList<Item> copyItems(ArrayList<Item> items) {
+        ArrayList<Item> copyItems = new ArrayList<Item>();
+    
+        for (Item item : items) {
+            // Deep copy the original item and add it to the newly created item list
+            copyItems.add(copyItem(item));
+        }
+    
+        return copyItems;
+    }
+
+    // Method to deep copy an Item
+    public static Item copyItem(Item item) {
+        // Create a new Item object with the original item's weight
+        Item newItem = new Item(item.getWeight());
+            
+        // Set the same binId and itemId as the original item
+        newItem.setBinId(item.getBinId());
+        newItem.setItemId(item.getItemId());
+
+        return newItem;
+    }
+
+    // Method to calculate mathematical lower bound for each problem's bin count to be used as termination criterion.
+    public static int calculateLowerBound(ArrayList<Bin> bins, int bin_capacity) {
+        int lower_bound = -1;
+        double total_bin_weight = 0.0;
+
+        for (Bin bin: bins) {
+            for (Item item: bin.getItems()) {
+                total_bin_weight += item.getWeight();
+            }
+        }
+
+        lower_bound = (int) Math.ceil(total_bin_weight / bin_capacity);
+
+        return lower_bound;
+    }
+}
+

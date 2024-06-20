@@ -1,0 +1,13 @@
+Why we used the parameters we did:
+
+No Reheating, 20 Population Size, 100 Start Temp, 50 iterations per temp
+9297.136300000002
+
+No Reheating, 500 Population Size, 1000 Start Temp
+9297.139406666665
+
+
+Why Boltzmann constant was chosen as 0.2?
+Ans) Look at the paper Solving_the_Generalized_Indirect_Fourier_Transform.
+There you can see ε = 0.2 gave "gave very reproducible results in almost
+any case and 20  j  40" on page 4.
