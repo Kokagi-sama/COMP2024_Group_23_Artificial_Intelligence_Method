@@ -1,8 +1,27 @@
 
 # COMP2024 Group 23 Project Documentation
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Metaheuristic Methods Implemented](#metaheuristic-methods-implemented)
+- [Prerequisites](#prerequisites)
+- [Setup Instructions](#setup-instructions)
+  - [Custom AIM Framework](#custom-aim-framework)
+  - [AIM Coursework](#aim-coursework)
+- [References](#references)
+  
 ## Introduction
-This project is part of the COMP2024 coursework, which includes two main components: `aim_coursework` and `custom_aim_framework`. The `custom_aim_framework` is a Maven project responsible for creating a custom Java JAR framework, while `aim_coursework` contains the Java application that utilises this framework to process algorithms related to the coursework.
+This project is part of the COMP2024 coursework, which includes two main components: `aim_coursework` and `custom_aim_framework`. The `custom_aim_framework` is a Maven project responsible for creating a custom Java JAR framework, while `aim_coursework` contains the Java application that utilises this framework to process metaheuristic algorithms related to the coursework.
+
+## Metaheuristic Methods Implemented
+
+This project implements various metaheuristic optimisation algorithms specifically designed to solve the **one-dimensional Bin Packing Problem (1D BPP)**:
+
+- **Genetic Algorithm (GA)**: Evolutionary algorithm using selection, crossover, and mutation operators.
+- **Simulated Annealing (SA)**: Probabilistic technique for approximating the global optimum.
+- **Ant Colony Optimisation (ACO)**: Swarm intelligence algorithm inspired by ant foraging behaviour.
+- **Adaptive Fitness Dependent Optimiser (AFDO)**: Adaptive optimisation algorithm with fitness-dependent parameters.
+- **Perturbation Minimum Bin Slack (Perturbation-MBS)**: A partially implemented bin-oriented metaheuristic based on the Sufficient Average Weight (SAW) principle, which controls item selection to optimise bin utilisation and minimise residual slack.
 
 ## Prerequisites
 - Java JDK 21 or any other suitable version of JDK.
